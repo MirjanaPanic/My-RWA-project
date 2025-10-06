@@ -9,7 +9,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateUserDto {
+export class UserDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(4, { message: 'Username must be at least 4 characters long' })
