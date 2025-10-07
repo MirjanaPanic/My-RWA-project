@@ -9,8 +9,12 @@ export class UsersService {
   //userRepo je tabela u bazi :)
   constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
 
-  createUser(userDto: UserDto): Promise<User> {
+  async createUser(userDto: UserDto): Promise<User> {
     const user = this.userRepo.create(userDto);
     return this.userRepo.save(user);
+  }
+
+  async findOneByUsername(username: string): Promise<User | null> {
+    return this.userRepo.findOneBy({ username });
   }
 }
