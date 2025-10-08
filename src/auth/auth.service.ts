@@ -5,6 +5,7 @@ import { UsersService } from 'src/users/user.service';
 import { AccessToken } from './types/AccessToken';
 import { UserDto } from 'src/users/dto/user.dto';
 import * as bcrypt from 'bcrypt';
+import { AccessTokenPayload } from './types/AccessTokenPayload';
 
 @Injectable()
 export class AuthService {
@@ -23,11 +24,14 @@ export class AuthService {
     if (!isMatch) {
       throw new BadRequestException('Password does not match');
     }
-    return user;
+    return user; //sigurno nije null
   }
 
   async login(user: User): Promise<AccessToken> {
-    const payload = { username: user.username, id: user.id }; //deo podataka koji ce biti ugradjen u token
+    const payload: AccessTokenPayload = {
+      userId: user.id,
+      username: user.username,
+    }; //deo podataka koji ce biti ugradjen u token
     return { access_token: await this.jwtService.signAsync(payload) }; //kreira JWT token
   }
 
@@ -41,6 +45,6 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(user.password, 10);
     const newUserDto: UserDto = { ...user, password: hashedPassword };
     const newUser: User = await this.usersService.createUser(newUserDto);
-    return this.login(newUser);
+    return this.login(newUser); //kad se registruje novi korisnik, automatski ga i logujemo
   }
 }

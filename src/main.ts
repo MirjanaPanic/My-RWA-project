@@ -7,7 +7,7 @@ async function bootstrap() {
   //za sve rute da ga koristimo
   app.useGlobalPipes(
     new ValidationPipe({
-      forbidNonWhitelisted: true, //ne daje nepoznata polja u dto
+      forbidNonWhitelisted: true, //odbija zahtev ako ima visak polja
       //disableErrorMessages: true
       transform: true, //konvertuje iz json formata u zeljeni dto :)
     }),

@@ -1,34 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { AuthGuard } from '@nestjs/passport';
+import type { RegisterResponseDTO } from './dto/register-response.dto';
+import type { RequestWithUser } from './types/RequestWithUser';
+import { AccessToken } from './types/AccessToken';
+import { UserDto } from 'src/users/dto/user.dto';
+import { Public } from './decorators/public.decorator';
 
+//RUTIRANJE I VALIDACIJA
+@Public()
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
+  //zahtev na /auth/login
+  @UseGuards(AuthGuard('local'))
+  @Post('login')
+  async login(@Request() req: RequestWithUser): Promise<AccessToken> {
+    return this.authService.login(req.user); //token
   }
 
-  @Get()
-  findAll() {
-    return this.authService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @Post('register')
+  async register(@Body() registerBody: UserDto): Promise<RegisterResponseDTO> {
+    return await this.authService.register(registerBody); //token
   }
 }

@@ -10,7 +10,7 @@ export class UsersService {
   constructor(@InjectRepository(User) private userRepo: Repository<User>) {}
 
   async createUser(userDto: UserDto): Promise<User> {
-    const user = this.userRepo.create(userDto);
+    const user: User = this.userRepo.create(userDto); //dodeli mu id autoincrement
     return this.userRepo.save(user);
   }
 
