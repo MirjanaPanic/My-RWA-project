@@ -3,7 +3,7 @@ import { ConfigDBModule } from './configuration/config-db.module';
 import { ConfigEnvModule } from './configuration/config-env.module';
 import { UsersModule } from './users/user.module';
 import { AuthModule } from './auth/auth.module';
-import { JwtStrategy } from './auth/strategy/jwt.strategy';
+import { JwtStrategy } from './auth/strategies/jwt.strategy';
 import { JwtGuard } from './auth/guards/jwt.guard';
 import { APP_GUARD } from '@nestjs/core';
 

@@ -1,7 +1,7 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthGuard } from '@nestjs/passport';
-import type { RegisterResponseDTO } from './dto/register-response.dto';
+import type { RegisterResponseDTO } from './dtos/register-response.dto';
 import type { RequestWithUser } from './types/RequestWithUser';
 import { AccessToken } from './types/AccessToken';
 import { UserDto } from 'src/users/dto/user.dto';

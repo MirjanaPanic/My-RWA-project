@@ -1,0 +1,13 @@
+.background-img {
+  background-image: url('../../../assets/startscreen.jpg');
+  height: 100vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+
+  display: flex; /* omogućava flex layout */
+  justify-content: center; /* centriranje horizontalno */
+  align-items: center;
+}
+
+.login-container {
+}
