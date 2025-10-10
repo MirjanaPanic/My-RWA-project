@@ -1,4 +1,16 @@
 .login-card {
   background-color: transparent;
+  backdrop-filter: blur(20px);
   padding: 30px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-bottom: 30px;
 }

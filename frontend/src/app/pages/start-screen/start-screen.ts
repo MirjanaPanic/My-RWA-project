@@ -5,7 +5,7 @@ import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-start-screen',
-  imports: [Login, Register, RouterOutlet],
+  imports: [RouterOutlet],
   templateUrl: './start-screen.html',
   styleUrl: './start-screen.css',
 })
