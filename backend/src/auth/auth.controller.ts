@@ -14,12 +14,13 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   //zahtev na /auth/login
-  @UseGuards(AuthGuard('local'))
+  @UseGuards(AuthGuard('local')) //prvo to,  req.user  ili  Unauthorized
   @Post('login')
   async login(@Request() req: RequestWithUser): Promise<AccessToken> {
     return this.authService.login(req.user); //token
   }
 
+  //zahtev na /auth/register
   @Post('register')
   async register(@Body() registerBody: UserDto): Promise<RegisterResponseDTO> {
     return await this.authService.register(registerBody); //token

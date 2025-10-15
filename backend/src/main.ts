@@ -12,6 +12,7 @@ async function bootstrap() {
       transform: true, //konvertuje iz json formata u zeljeni dto :)
     }),
   );
+  app.enableCors({ origin: 'http://localhost:4200' }); //da moze moj klijent na portu 4200 da pristupi serveru na portu 3000
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

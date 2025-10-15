@@ -10,6 +10,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     super();
   }
 
+  //kad koristim AuthGuard("local") poziva se ova metoda, automatski
   //iz body-ja request-a uzima podatke
   async validate(username: string, password: string): Promise<User> {
     const user: User = await this.authService.validateUser(username, password);
