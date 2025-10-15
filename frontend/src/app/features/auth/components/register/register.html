@@ -1,21 +1,31 @@
 <mat-card class="register-card">
   <mat-card-header>
-    <mat-card-title>Register</mat-card-title>
+    <mat-card-title>Create account</mat-card-title>
     <mat-card-subtitle>Card subtitle</mat-card-subtitle>
   </mat-card-header>
 
   <mat-card-content class="content">
     <mat-form-field appearance="fill">
       <mat-label>Username</mat-label>
-      <input matInput placeholder="Enter your username" />
+      <input matInput [(ngModel)]="username" placeholder="Enter your username" />
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
-      <input matInput type="password" placeholder="Enter your password" />
+      <input matInput [(ngModel)]="password" type="password" placeholder="Enter your password" />
     </mat-form-field>
 
-    <button mat-raised-button>Register</button></mat-card-content
+    <mat-form-field appearance="fill">
+      <mat-label>Confirm password</mat-label>
+      <input
+        matInput
+        [(ngModel)]="passwordConfirm"
+        type="password"
+        placeholder="Enter your password"
+      />
+    </mat-form-field>
+
+    <button mat-raised-button (click)="register()">Register</button></mat-card-content
   >
 
   <mat-card-actions>
