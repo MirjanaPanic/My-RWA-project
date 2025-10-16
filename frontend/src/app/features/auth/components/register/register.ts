@@ -84,7 +84,7 @@ export class Register {
     this.authService.register({ username, password }).subscribe({
       next: (response) => {
         this.authService.saveToken(response.access_token);
-        console.log('Registration successful, token:', response.access_token);
+        //navigacija na neku stranicu
       },
       error: (err) => {
         if (err.status === 400) {
