@@ -1,4 +1,4 @@
-<mat-card class="register-card">
+<mat-card class="register-card" [formGroup]="form">
   <mat-card-header>
     <mat-card-title>Create account</mat-card-title>
     <mat-card-subtitle>Card subtitle</mat-card-subtitle>
@@ -7,26 +7,54 @@
   <mat-card-content class="content">
     <mat-form-field appearance="fill">
       <mat-label>Username</mat-label>
-      <input matInput [(ngModel)]="username" placeholder="Enter your username" />
+      <input matInput placeholder="Enter your username" formControlName="username" />
+      <mat-error
+        class="required-fields"
+        *ngIf="form.get('username')?.hasError('required') && form.get('username')?.touched"
+      >
+        Username is required
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Password</mat-label>
-      <input matInput [(ngModel)]="password" type="password" placeholder="Enter your password" />
+      <input
+        matInput
+        type="password"
+        placeholder="Enter your password"
+        formControlName="password"
+      />
+      <mat-error
+        class="required-fields"
+        *ngIf="form.get('password')?.hasError('required') && form.get('password')?.touched"
+      >
+        Password is required
+      </mat-error>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Confirm password</mat-label>
       <input
         matInput
-        [(ngModel)]="passwordConfirm"
         type="password"
         placeholder="Enter your password"
+        formControlName="passwordConfirm"
       />
+      <mat-error
+        class="required-fields"
+        *ngIf="
+          form.get('passwordConfirm')?.hasError('required') && form.get('passwordConfirm')?.touched
+        "
+      >
+        Confirm is required
+      </mat-error>
     </mat-form-field>
 
-    <button mat-raised-button (click)="register()">Register</button></mat-card-content
-  >
+    <button mat-raised-button (click)="register()">Register</button>
+  </mat-card-content>
+
+  <!-- Move error message here, outside mat-card-content -->
+  <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
 
   <mat-card-actions>
     <mat-label>Already have an account?</mat-label>

@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/user.service';
@@ -18,11 +22,11 @@ export class AuthService {
     const user: User | null =
       await this.usersService.findOneByUsername(username);
     if (!user) {
-      throw new BadRequestException('User not found');
+      throw new UnauthorizedException('User does not exist'); //401 error
     }
     const isMatch: boolean = bcrypt.compareSync(password, user.password);
     if (!isMatch) {
-      throw new BadRequestException('Password does not match');
+      throw new UnauthorizedException('User does not exist');
     }
     return user; //sigurno nije null
   }

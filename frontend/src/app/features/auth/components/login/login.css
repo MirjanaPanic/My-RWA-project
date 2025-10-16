@@ -14,3 +14,15 @@
   margin-top: 20px;
   margin-bottom: 30px;
 }
+
+.error-message {
+  color: #d32f2f;
+  font-size: 14px;
+  margin-top: 12px;
+  font-weight: bold;
+}
+
+.required-fields {
+  font-weight: bold;
+  font-size: 14px;
+}

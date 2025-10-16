@@ -18,6 +18,5 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
     });
     return next(clonedRequest); //salje izmenjeni zahtev sa tokenom
   }
-
   return next(req); //zahtev bez tokena, originalni zahtev bez tokena (npr. login/register rute)
 };

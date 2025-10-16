@@ -4,8 +4,7 @@
   background-size: cover;
   background-repeat: no-repeat;
 
-  display: flex; /* omogućava flex layout */
-  justify-content: center; /* centriranje horizontalno */
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
-
