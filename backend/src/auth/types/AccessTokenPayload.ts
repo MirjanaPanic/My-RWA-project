@@ -1,4 +1,4 @@
-export type AccessTokenPayload = {
+export interface AccessTokenPayload {
   userId: number;
   username: string;
-};
+}

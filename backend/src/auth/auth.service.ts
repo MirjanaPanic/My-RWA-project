@@ -6,10 +6,10 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/user.service';
-import { AccessToken } from './types/AccessToken';
 import { UserDto } from 'src/users/dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { AccessTokenPayload } from './types/AccessTokenPayload';
+import { AuthResponse } from './types/AuthResponse';
 
 @Injectable()
 export class AuthService {
@@ -31,23 +31,30 @@ export class AuthService {
     return user; //sigurno nije null
   }
 
-  async login(user: User): Promise<AccessToken> {
+  async login(user: User): Promise<AuthResponse> {
     const payload: AccessTokenPayload = {
       userId: user.id,
       username: user.username,
     }; //deo podataka koji ce biti ugradjen u token
-    return { access_token: await this.jwtService.signAsync(payload) }; //kreira JWT token
+    const token = await this.jwtService.signAsync(payload);
+    return {
+      access_token: token,
+      user: {
+        id: user.id,
+        username: user.username,
+      },
+    }; //kreira JWT token
   }
 
-  async register(user: UserDto): Promise<AccessToken> {
+  async register(userDto: UserDto): Promise<AuthResponse> {
     const existingUser = await this.usersService.findOneByUsername(
-      user.username,
+      userDto.username,
     );
     if (existingUser) {
       throw new BadRequestException('username already exists');
     }
-    const hashedPassword = await bcrypt.hash(user.password, 10);
-    const newUserDto: UserDto = { ...user, password: hashedPassword };
+    const hashedPassword = await bcrypt.hash(userDto.password, 10);
+    const newUserDto: UserDto = { ...userDto, password: hashedPassword };
     const newUser: User = await this.usersService.createUser(newUserDto);
     return this.login(newUser); //kad se registruje novi korisnik, automatski ga i logujemo
   }
