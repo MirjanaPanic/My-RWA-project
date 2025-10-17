@@ -56,6 +56,7 @@ export class Login {
       next: (response) => {
         this.authService.saveToken(response.access_token);
         console.log('Login successful ');
+        //da me vodi na novu str
       },
       error: (err) => {
         if (err.status === 401) {
