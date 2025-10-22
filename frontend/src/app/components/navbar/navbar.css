@@ -1,0 +1,19 @@
+nav {
+  background-color: rgb(32, 43, 78);
+  color: white;
+  display: flex;
+  justify-content: space-between;
+}
+
+.items {
+  display: flex;
+  justify-content: space-around;
+}
+
+p {
+  cursor: pointer;
+  padding: 10px;
+}
+p:hover {
+  color: rgb(138, 235, 118);
+}

@@ -1,6 +1,6 @@
 .login-card {
   background-color: transparent;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(30px);
   padding: 30px;
   color: white;
   display: flex;

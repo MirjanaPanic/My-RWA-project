@@ -55,8 +55,7 @@ export class Login {
     this.authService.login({ username, password }).subscribe({
       next: (response) => {
         this.authService.saveToken(response.access_token);
-        console.log('Login successful ');
-        //da me vodi na novu str
+        this.router.navigate(['/home']);
       },
       error: (err) => {
         if (err.status === 401) {

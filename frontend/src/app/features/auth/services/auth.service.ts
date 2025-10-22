@@ -25,4 +25,12 @@ export class AuthService {
   getToken(): string | null {
     return localStorage.getItem('access_token');
   }
+
+  isAuthenticated(): boolean {
+    const token = localStorage.getItem('token'); //string or null
+    // dupla negacija:
+    // !string je false !!string je true ->postoji token
+    // !null je true !!null je false ->ne postoji token
+    return !!token; //ako postoji token, vraca true
+  }
 }
