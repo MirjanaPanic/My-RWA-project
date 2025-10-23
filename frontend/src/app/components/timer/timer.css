@@ -1,0 +1,126 @@
+.outer-circle {
+  width: 50vmin;
+  height: 50vmin;
+  border-radius: 50%;
+  border: 8px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 0 40px rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.line {
+  position: absolute;
+  width: 140%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.3);
+  top: 50%;
+  left: 50%;
+  transform-origin: center;
+  z-index: 2;
+}
+.diagonal1 {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+.diagonal2 {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* unutrašnji krug */
+.inner-circle {
+  width: 20vmin;
+  height: 20vmin;
+  border-radius: 50%;
+  background: rgb(78, 108, 69);
+  border: 8px solid rgba(255, 255, 255, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  color: wheat;
+  font-size: 20px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.quarter {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  color: wheat;
+  font-size: 18px;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: background 0.3s ease;
+  z-index: 1;
+  text-shadow: 0 0 4px black;
+}
+
+.top {
+  clip-path: polygon(50% 50%, 100% 0%, 0% 0%);
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10%;
+}
+
+.right {
+  clip-path: polygon(50% 50%, 100% 0%, 100% 100%);
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 10%;
+}
+
+.bottom {
+  clip-path: polygon(50% 50%, 100% 100%, 0% 100%);
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 10%;
+}
+
+.left {
+  clip-path: polygon(50% 50%, 0% 100%, 0% 0%);
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 10%;
+}
+
+.quarter:hover,
+.inner-circle:hover,
+.outer-circle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+}
+
+.outer-circle:has(.quarter:hover),
+.outer-circle:has(.inner-circle:hover) {
+  background: none;
+}
+
+.outer-circle:has(.inner-circle:hover),
+.outer-circle:has(.quarter:hover) {
+  --mask: radial-gradient(
+    circle at center,
+    transparent 0,
+    transparent 10vmin,
+    black 10.1vmin,
+    black 100%
+  );
+}
+
+.outer-circle:has(.inner-circle:hover) .line,
+.outer-circle:has(.quarter:hover) .line {
+  -webkit-mask: var(--mask);
+  mask: var(--mask);
+}
+
+p {
+  color: wheat;
+  font-size: 18px;
+  font-weight: bold;
+}

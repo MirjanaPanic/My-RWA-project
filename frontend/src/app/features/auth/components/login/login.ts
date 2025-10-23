@@ -55,7 +55,8 @@ export class Login {
     this.authService.login({ username, password }).subscribe({
       next: (response) => {
         this.authService.saveToken(response.access_token);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/focus']);
+        //smestiti u store username??
       },
       error: (err) => {
         if (err.status === 401) {

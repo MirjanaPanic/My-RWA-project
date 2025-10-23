@@ -1,8 +1,11 @@
 nav {
   background-color: rgb(32, 43, 78);
   color: white;
+  font-size: 16px;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  height: 60px;
 }
 
 .items {
@@ -15,5 +18,14 @@ p {
   padding: 10px;
 }
 p:hover {
-  color: rgb(138, 235, 118);
+  color: wheat;
+}
+
+nav svg {
+  transition: fill 0.3s;
+}
+
+nav p:hover svg {
+  fill: wheat;
+  cursor: pointer;
 }

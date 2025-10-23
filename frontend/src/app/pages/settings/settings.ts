@@ -2,9 +2,11 @@ import { Component } from '@angular/core';
 import { Navbar } from '../../components/navbar/navbar';
 
 @Component({
-  selector: 'app-start-screen',
+  selector: 'app-settings',
   imports: [Navbar],
-  templateUrl: './home.html',
-  styleUrl: './home.css',
+  templateUrl: './settings.html',
+  styleUrl: './settings.css'
 })
-export class Home {}
+export class Settings {
+
+}
