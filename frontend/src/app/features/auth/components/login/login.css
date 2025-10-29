@@ -6,6 +6,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 330px;
 }
 
 .content {
@@ -25,4 +26,16 @@
 .required-fields {
   font-weight: bold;
   font-size: 14px;
+}
+
+.error-message {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.actions{
+  display: flex;
+  justify-content: space-between;
+
 }

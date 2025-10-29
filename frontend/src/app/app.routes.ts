@@ -6,14 +6,15 @@ import { StartScreen } from './layouts/start-screen/start-screen';
 import { AuthGuard } from './features/auth/guards/auth.guard';
 import { Settings } from './pages/settings/settings';
 import { Statistics } from './pages/statistics/statistics';
+import { LoginGuard } from './features/auth/guards/login.guard';
 
 export const routes: Routes = [
   {
     path: '',
     component: StartScreen,
     children: [
-      { path: 'login', component: Login },
-      { path: 'register', component: Register },
+      { path: 'login', component: Login, canActivate: [LoginGuard] },
+      { path: 'register', component: Register, canActivate: [LoginGuard] },
       { path: '', redirectTo: 'login', pathMatch: 'full' }, //defaultno
     ],
   },

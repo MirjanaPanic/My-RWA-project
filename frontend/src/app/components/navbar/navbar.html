@@ -1,12 +1,17 @@
 <nav>
-  <div>
+  <div class="logo">
     <p routerLink="/focus">L∞ply</p>
   </div>
   <div class="items">
     <p routerLink="/focus">Focus</p>
     <p routerLink="/statistics">Statistics</p>
     <p routerLink="/settings">Settings</p>
-    <p> 
+  </div>
+  <div class="logout">
+    <p>
+      {{ username }}
+    </p>
+    <button class="btn-logout" (click)="logout()">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         height="24px"
@@ -18,6 +23,6 @@
           d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h280v80H200Zm440-160-55-58 102-102H360v-80h327L585-622l55-58 200 200-200 200Z"
         />
       </svg>
-    </p>
+    </button>
   </div>
 </nav>

@@ -47,11 +47,12 @@ export class AuthService {
   }
 
   async register(userDto: UserDto): Promise<AuthResponse> {
+    //throw new InternalServerErrorException();
     const existingUser = await this.usersService.findOneByUsername(
       userDto.username,
     );
     if (existingUser) {
-      throw new BadRequestException('username already exists');
+      throw new BadRequestException('Username already exists'); //status 400
     }
     const hashedPassword = await bcrypt.hash(userDto.password, 10);
     const newUserDto: UserDto = { ...userDto, password: hashedPassword };

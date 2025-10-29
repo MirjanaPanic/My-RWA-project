@@ -4,7 +4,7 @@ import { StartScreen } from './layouts/start-screen/start-screen';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, StartScreen],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

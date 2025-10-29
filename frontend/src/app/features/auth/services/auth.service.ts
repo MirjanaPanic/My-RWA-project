@@ -19,15 +19,16 @@ export class AuthService {
   }
 
   saveToken(token: string) {
-    localStorage.setItem('token', token);
+    localStorage.setItem('access_token', token);
   }
 
   getToken(): string | null {
     return localStorage.getItem('access_token');
   }
 
+  
   isAuthenticated(): boolean {
-    const token = localStorage.getItem('token'); //string or null
+    const token = localStorage.getItem('access_token'); //string or null
     // dupla negacija:
     // !string je false !!string je true ->postoji token
     // !null je true !!null je false ->ne postoji token
