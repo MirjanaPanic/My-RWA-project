@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ConfigDBModule } from './configuration/config-db.module';
-import { ConfigEnvModule } from './configuration/config-env.module';
-import { UsersModule } from './users/user.module';
-import { AuthModule } from './auth/auth.module';
-import { JwtStrategy } from './auth/strategies/jwt.strategy';
-import { JwtGuard } from './auth/guards/jwt.guard';
 import { APP_GUARD } from '@nestjs/core';
+import { ConfigDBModule } from './core/configuration/config-db.module';
+import { ConfigEnvModule } from './core/configuration/config-env.module';
+import { UsersModule } from './app/users/user.module';
+import { AuthModule } from './core/auth/auth.module';
+import { JwtStrategy } from './core/auth/strategies/jwt.strategy';
+import { JwtGuard } from './core/auth/guards/jwt.guard';
 
 @Module({
   imports: [ConfigDBModule, ConfigEnvModule, UsersModule, AuthModule],
