@@ -48,5 +48,6 @@ export class Register {
     if (!this.clientError) {
       this.store.dispatch(registerRequest({ username: this.username, password: this.password }));
     }
+    console.log(localStorage.getItem('access_token'));
   }
 }

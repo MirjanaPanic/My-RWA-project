@@ -4,12 +4,14 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from 'src/users/entities/user.entity';
-import { UsersService } from 'src/users/user.service';
-import { UserDto } from 'src/users/dto/user.dto';
+
 import * as bcrypt from 'bcrypt';
 import { AccessTokenPayload } from './types/AccessTokenPayload';
 import { AuthResponse } from './types/AuthResponse';
+import { UsersService } from 'src/app/users/user.service';
+import { User } from 'src/app/users/entities/user.entity';
+import { UserDto } from 'src/app/users/dtos/user.dto';
+import { JwtUser } from './types/JwtUser';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +20,7 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<User> {
+  async validateUser(username: string, password: string): Promise<JwtUser> {
     const user: User | null =
       await this.usersService.findOneByUsername(username);
     if (!user) {
@@ -28,10 +30,10 @@ export class AuthService {
     if (!isMatch) {
       throw new UnauthorizedException('User does not exist');
     }
-    return user; //sigurno nije null
+    return { id: user.id, username: user.username }; //sigurno nije null
   }
 
-  async login(user: User): Promise<AuthResponse> {
+  async login(user: JwtUser): Promise<AuthResponse> {
     const payload: AccessTokenPayload = {
       userId: user.id,
       username: user.username,
@@ -47,7 +49,6 @@ export class AuthService {
   }
 
   async register(userDto: UserDto): Promise<AuthResponse> {
-    //throw new InternalServerErrorException();
     const existingUser = await this.usersService.findOneByUsername(
       userDto.username,
     );
@@ -56,7 +57,8 @@ export class AuthService {
     }
     const hashedPassword = await bcrypt.hash(userDto.password, 10);
     const newUserDto: UserDto = { ...userDto, password: hashedPassword };
-    const newUser: User = await this.usersService.createUser(newUserDto);
+    const newUser: JwtUser = await this.usersService.createUser(newUserDto);
+
     return this.login(newUser); //kad se registruje novi korisnik, automatski ga i logujemo
   }
 }

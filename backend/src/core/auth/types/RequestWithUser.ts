@@ -1,5 +1,5 @@
-import { User } from 'src/users/entities/user.entity';
+import { JwtUser } from './JwtUser';
 
 export interface RequestWithUser extends Express.Request {
-  user: User;
+  user: JwtUser;
 }

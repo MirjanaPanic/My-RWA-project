@@ -7,4 +7,6 @@ import { Navbar } from '../../components/navbar/navbar';
   templateUrl: './statistics.html',
   styleUrl: './statistics.css',
 })
-export class Statistics {}
+export class Statistics {
+  token: string | null = localStorage.getItem('access_token');
+}

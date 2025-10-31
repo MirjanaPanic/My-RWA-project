@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User } from 'src/users/entities/user.entity';
+import { User } from 'src/app/users/entities/user.entity';
+import { Message } from 'src/app/messages/entities/message.entity';
+import { Session } from 'src/app/sessions/entities/session.entity';
+import { Tag } from 'src/app/tags/entities/tag.entity';
+import { Flower } from 'src/app/flowers/entities/flower.entity';
 
 @Module({
   imports: [
@@ -15,7 +19,7 @@ import { User } from 'src/users/entities/user.entity';
         username: configService.get<string>('DB_USER'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_NAME'),
-        entities: [User],
+        entities: [User, Message, Session, Tag, Flower],
         autoLoadEntities: true,
         synchronize: true,
         logging: true,

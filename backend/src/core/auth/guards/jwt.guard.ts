@@ -19,6 +19,6 @@ export class JwtGuard extends AuthGuard('jwt') {
     if (isPublic) {
       return true; //preskoci JWT validaciju, dozvoljen pristup bez tokena
     }
-    return super.canActivate(context);
+    return super.canActivate(context); //jwt guard validacija
   }
 }

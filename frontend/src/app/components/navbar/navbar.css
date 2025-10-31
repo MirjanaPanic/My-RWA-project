@@ -1,6 +1,6 @@
 nav {
-  background-color: rgb(32, 43, 78);
-  color: white;
+  background-color: #3e2f1c; /* tamno braon */
+  color: #f0e9d2;
   font-size: 16px;
   display: flex;
   justify-content: space-between;
@@ -47,5 +47,5 @@ nav p:hover svg {
 }
 
 .btn-logout:hover svg {
-  fill: wheat; 
+  fill: wheat;
 }

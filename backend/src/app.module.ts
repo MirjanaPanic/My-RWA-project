@@ -6,9 +6,16 @@ import { UsersModule } from './app/users/user.module';
 import { AuthModule } from './core/auth/auth.module';
 import { JwtStrategy } from './core/auth/strategies/jwt.strategy';
 import { JwtGuard } from './core/auth/guards/jwt.guard';
+import { TagsModule } from './app/tags/tags.module';
 
 @Module({
-  imports: [ConfigDBModule, ConfigEnvModule, UsersModule, AuthModule],
+  imports: [
+    ConfigDBModule,
+    ConfigEnvModule,
+    UsersModule,
+    AuthModule,
+    TagsModule,
+  ],
   controllers: [],
   providers: [
     {

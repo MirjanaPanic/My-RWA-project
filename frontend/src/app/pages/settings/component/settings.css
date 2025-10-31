@@ -1,0 +1,21 @@
+.settings-container {
+  background-color: antiquewhite;
+  display: flex;
+  justify-content:space-around;
+  align-items: center;
+  height: calc(100vh - 60px);
+}
+
+.new-tag {
+  border: 2px solid black;
+}
+
+
+
+.messages-container {
+  border: 2px solid black;
+}
+
+.session-container {
+  border: 2px solid black;
+}
