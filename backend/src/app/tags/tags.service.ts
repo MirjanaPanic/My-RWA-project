@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Tag } from './entities/tag.entity';
@@ -8,7 +8,10 @@ import { TagDto } from './dtos/tag.dto';
 export class TagsService {
   constructor(@InjectRepository(Tag) private tagsRepo: Repository<Tag>) {}
 
-  async addNewTag(tagDto: TagDto, userId: number): Promise<Tag> {
+  async addNewTag(
+    tagDto: TagDto,
+    userId: number,
+  ): Promise<{ id: number; name: string }> {
     const existingTag = await this.tagsRepo.findOne({
       where: {
         name: tagDto.name,
@@ -16,13 +19,14 @@ export class TagsService {
       },
     });
     if (existingTag) {
-      throw new Error('This user already has this tag');
+      throw new ConflictException('This user already has this tag'); //409
     }
     const tag: Tag = this.tagsRepo.create({
       name: tagDto.name,
       user: { id: userId },
     });
-    return this.tagsRepo.save(tag);
+    const savedTag = await this.tagsRepo.save(tag);
+    return { id: savedTag.id, name: savedTag.name };
   }
 
   //delete tag

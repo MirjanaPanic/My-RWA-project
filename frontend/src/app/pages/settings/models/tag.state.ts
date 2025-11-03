@@ -1,5 +1,6 @@
-import { Tag } from "./tag.model";
+import { Tag } from './tag.model';
 
 export interface TagState {
   tags: Tag[];
+  error: string | null;
 }

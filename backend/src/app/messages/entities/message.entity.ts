@@ -10,9 +10,6 @@ export class Message {
   @Column({ type: 'varchar', length: 30, unique: true })
   text: string;
 
-  @Column({ type: 'varchar', length: 100 })
-  password: string;
-
   @ManyToOne(() => User, (user) => user.messages, {
     onDelete: 'CASCADE',
   })

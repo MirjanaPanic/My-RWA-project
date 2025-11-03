@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
-import { registerRequest, resetErrorMessage } from '../../store/auth.actions';
+import { registerRequest, resetServerErrorMessage } from '../../store/auth.actions';
 import { Observable } from 'rxjs';
 import { selectError } from '../../store/auth.selectors';
 import { formValidate } from '../../helpers/auth.validators';
@@ -43,7 +43,7 @@ export class Register {
   }
 
   register() {
-    this.store.dispatch(resetErrorMessage());
+    this.store.dispatch(resetServerErrorMessage());
     this.clientError = formValidate(this.username, this.password, this.passwordConfirm);
     if (!this.clientError) {
       this.store.dispatch(registerRequest({ username: this.username, password: this.password }));

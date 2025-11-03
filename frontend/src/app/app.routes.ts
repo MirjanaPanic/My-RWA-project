@@ -4,7 +4,7 @@ import { Register } from './features/auth/components/register/register';
 import { Focus } from './pages/focus/focus';
 import { StartScreen } from './layouts/start-screen/start-screen';
 import { AuthGuard } from './features/auth/guards/auth.guard';
-import { Settings } from './pages/settings/component/settings';
+import { Settings } from './pages/settings/components/settings';
 import { Statistics } from './pages/statistics/statistics';
 import { LoginGuard } from './features/auth/guards/login.guard';
 

@@ -22,4 +22,4 @@ export const registerFailure = createAction('[Auth] Register Failure', props<{ e
 export const logoutSuccess = createAction('[Auth] Logout Success');
 export const logoutFailure = createAction('[Auth] Logout Failure', props<{ error: string }>()); //
 
-export const resetErrorMessage = createAction("[Auth] Reset Error message after it's read");
+export const resetServerErrorMessage = createAction("[Auth] Reset Error message after it's read");

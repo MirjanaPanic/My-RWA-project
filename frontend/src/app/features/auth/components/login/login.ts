@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { selectError } from '../../store/auth.selectors';
-import { loginRequest, resetErrorMessage } from '../../store/auth.actions';
+import { loginRequest, resetServerErrorMessage } from '../../store/auth.actions';
 import { formValidate } from '../../helpers/auth.validators';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
@@ -45,7 +45,7 @@ export class Login {
   }
 
   login() {
-    this.store.dispatch(resetErrorMessage());
+    this.store.dispatch(resetServerErrorMessage());
     this.clientError = formValidate(this.username, this.password);
     if (!this.clientError) {
       this.store.dispatch(loginRequest({ username: this.username, password: this.password }));
