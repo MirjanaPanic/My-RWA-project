@@ -8,7 +8,7 @@ import { Tag } from '../models/tag.model';
   providedIn: 'root',
 })
 //ili posebno za tag i messages service
-export class SettingsService {
+export class TagsService {
   constructor(private http: HttpClient) {}
 
   getAllTags(): Observable<Tag[]> {

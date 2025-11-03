@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Tag } from '../models/tag.model';
+import { Tag } from '../../models/tag.model';
 
 //akcija koja se salje ka serveru
 export const getAllTagsRequest = createAction('[Tags] Request for all tags of user');

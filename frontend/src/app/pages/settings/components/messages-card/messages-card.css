@@ -1,0 +1,13 @@
+.allMessages-container {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.message-container{
+    display: flex;
+    width: 400px;
+}
+.actions{
+    display: flex;
+    justify-content: space-between;
+}

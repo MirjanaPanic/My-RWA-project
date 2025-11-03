@@ -14,8 +14,11 @@ import { authReducer } from './features/auth/store/auth.reducer';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { provideEffects } from '@ngrx/effects';
 import { AuthEffects } from './features/auth/store/auth.effects';
-import { settingsReducer } from './pages/settings/store/settings.reducer';
-import { SettingsEffects } from './pages/settings/store/settings.effects';
+import { tagsReducer } from './pages/settings/store/tags/tags.reducer';
+import { TagsEffects } from './pages/settings/store/tags/tags.effects';
+import { messagesReducer } from './pages/settings/store/messages/messages.reducer';
+import { MessagesEffects } from './pages/settings/store/messages/messages.effects';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,8 +27,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
     importProvidersFrom(FormsModule),
-    provideStore({ auth: authReducer, settings:settingsReducer }),
-    provideEffects([AuthEffects, SettingsEffects]), //DODATI KAD IZ KOMPONENTE DISPATCHUJEM!!!
+    provideStore({ auth: authReducer, tags: tagsReducer, messages:messagesReducer }),
+    provideEffects([AuthEffects, TagsEffects, MessagesEffects]), //DODATI KAD IZ KOMPONENTE DISPATCHUJEM!!!
     provideStoreDevtools(),
   ],
 };

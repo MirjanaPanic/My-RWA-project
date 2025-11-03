@@ -7,18 +7,18 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { map, Observable, take } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Tag } from '../../models/tag.model';
+import { Store } from '@ngrx/store';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { selectAllTags, selectError } from '../../store/tags/tags.selectors';
 import {
   addNewTagRequest,
   deleteTagRequest,
   getAllTagsRequest,
   resetServerErrorMessage,
   updateTagRequest,
-} from '../../store/settings.actions';
-import { Store } from '@ngrx/store';
-import { selectAllTags, selectError } from '../../store/settings.selectors';
-import { MatTooltipModule } from '@angular/material/tooltip';
+} from '../../store/tags/tags.actions';
 
 @Component({
   selector: 'app-tags-card',

@@ -1,1 +1,38 @@
-<p>messages-card works!</p>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Messages</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="allMessages-container">
+      <mat-list>
+        @for (message of allMessages$|async; track message.id) {
+        <mat-list-item>
+          <div class="message-container">
+            @if (messageToEdit?.id === message.id) {
+            <input matInput />
+            <div class="actions">
+              <button matButton color="primary">
+                <mat-icon>check</mat-icon>
+              </button>
+              <button matButton color="warn">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+            } @else {
+            {{ message.text }}
+            <div class="actions">
+              <button matButton color="primary" (click)="setEdit(message)">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button matButton color="warn">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </div>
+            }
+          </div>
+        </mat-list-item>
+        }
+      </mat-list>
+    </div>
+  </mat-card-content>
+</mat-card>

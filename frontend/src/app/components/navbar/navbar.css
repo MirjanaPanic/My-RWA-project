@@ -49,3 +49,18 @@ nav p:hover svg {
 .btn-logout:hover svg {
   fill: wheat;
 }
+
+.logo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.logo-img {
+  background-image: url('../../../assets/logo.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  height: 60px;
+  width: 100px;
+}

@@ -2,22 +2,23 @@ import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { catchError, map, of, switchMap } from 'rxjs';
 import { Router } from '@angular/router';
-import { SettingsService } from '../services/settings.service';
-import * as SettingsActions from './settings.actions';
+
+import { TagsService } from '../../services/tags.service';
+import * as TagsActions from './tags.actions';
 
 @Injectable()
-export class SettingsEffects {
+export class TagsEffects {
   private actions$ = inject(Actions); //stream svih akcija
   private router = inject(Router);
-  private settingsService = inject(SettingsService);
+  private tagsService = inject(TagsService);
 
   allTags$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SettingsActions.getAllTagsRequest),
+      ofType(TagsActions.getAllTagsRequest),
       switchMap(() =>
-        this.settingsService.getAllTags().pipe(
+        this.tagsService.getAllTags().pipe(
           map((response) => {
-            return SettingsActions.allTagsSuccess({ tags: response });
+            return TagsActions.allTagsSuccess({ tags: response });
           }) //access token i user id, username
           /*catchError((error) =>
             of(
@@ -36,12 +37,12 @@ export class SettingsEffects {
 
   deleteTag$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SettingsActions.deleteTagRequest),
+      ofType(TagsActions.deleteTagRequest),
       switchMap(({ id }) =>
-        this.settingsService.deleteTag(id).pipe(
+        this.tagsService.deleteTag(id).pipe(
           map((response) => {
             //status 200 ako je uspesno
-            return SettingsActions.deleteTagSuccess({ id: id });
+            return TagsActions.deleteTagSuccess({ id: id });
           }) //access token i user id, username
           /*catchError((error) =>
             of(
@@ -60,11 +61,11 @@ export class SettingsEffects {
 
   addTag$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SettingsActions.addNewTagRequest),
+      ofType(TagsActions.addNewTagRequest),
       switchMap(({ name }) =>
-        this.settingsService.addNewTag(name).pipe(
+        this.tagsService.addNewTag(name).pipe(
           map((response) => {
-            return SettingsActions.addNewTagSuccess({ id: response.id, name: response.name });
+            return TagsActions.addNewTagSuccess({ id: response.id, name: response.name });
           }),
           catchError((error) => {
             let errorMessage = 'An error occurred. Please try again.';
@@ -75,7 +76,7 @@ export class SettingsEffects {
             } else if (error.status === 500) {
               errorMessage = 'Server error, please try later';
             }
-            return of(SettingsActions.addNewTagFailure({ error: errorMessage }));
+            return of(TagsActions.addNewTagFailure({ error: errorMessage }));
           })
         )
       )
@@ -84,12 +85,12 @@ export class SettingsEffects {
 
   updateTag$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(SettingsActions.updateTagRequest),
+      ofType(TagsActions.updateTagRequest),
       switchMap(({ id, name }) =>
-        this.settingsService.updateTag(id, name).pipe(
+        this.tagsService.updateTag(id, name).pipe(
           map((response) => {
             //status 200 ako je uspesno
-            return SettingsActions.updateTagSuccess({ id, name });
+            return TagsActions.updateTagSuccess({ id, name });
           }) //access token i user id, username
           /*catchError((error) =>
             of(
