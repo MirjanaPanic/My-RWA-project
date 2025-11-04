@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterModule } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { logout } from '../../features/auth/store/auth.actions';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink],
+  imports: [RouterLink, RouterModule],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })

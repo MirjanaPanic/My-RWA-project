@@ -38,7 +38,7 @@
             @if (messageToDelete?.id === message.id) {
             <div class="delete-confirmation">
               <p>
-                Are you sure you want to delete
+                Are you sure you want to delete message 
                 <strong>{{ message.text }}</strong
                 >?
               </p>
@@ -53,6 +53,7 @@
           </div>
         </mat-list-item>
         }
+          <div *ngIf="(allMessages$ | async)?.length === 0">There is no messages.</div>
       </mat-list>
     </div>
     <div class="new-message-container">

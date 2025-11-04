@@ -1,0 +1,22 @@
+.timer-settings {
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  padding: 20px;
+  width: 300px;
+}
+
+.timer-settings mat-form-field {
+  width: 200px;
+}
+
+.tag-settings {
+  padding: 20px;
+}
+
+.session-settings {
+  display: flex;
+  flex-direction: row;
+  width: 600px;
+}
+

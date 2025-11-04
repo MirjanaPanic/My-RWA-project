@@ -7,7 +7,7 @@ export class Message {
   @PrimaryGeneratedColumn() //auto-increment
   id: number;
 
-  @Column({ type: 'varchar', length: 30, unique: true })
+  @Column({ type: 'varchar', length: 100, unique: true })
   text: string;
 
   @ManyToOne(() => User, (user) => user.messages, {

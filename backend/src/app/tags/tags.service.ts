@@ -1,6 +1,6 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { Tag } from './entities/tag.entity';
 import { TagDto } from './dtos/tag.dto';
 
@@ -51,6 +51,12 @@ export class TagsService {
         name: 'ASC',
       },
     });
+  }
+
+  //vraca listu tagova koji zadovoljavaju search input
+  async getMatchedTags(userId: number, input: string): Promise<Tag[]> {
+    //case-
+    return this.tagsRepo.find({ where: { name: ILike(`%${input}%`) } });
   }
 
   //update tag

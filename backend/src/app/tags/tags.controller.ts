@@ -6,6 +6,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { TagDto } from './dtos/tag.dto';
@@ -27,6 +28,11 @@ export class TagsController {
   @Get('all')
   allTags(@CurrentUser() userId: number): Promise<Tag[]> {
     return this.tagsService.getAllTags(userId);
+  }
+
+  @Get('search')
+  searchTags(@CurrentUser() userId: number, @Query('input') input: string) {
+    return this.tagsService.getMatchedTags(userId, input);
   }
 
   @Delete('delete/:id')

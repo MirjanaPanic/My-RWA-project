@@ -1,0 +1,44 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title> Let's loop!</mat-card-title>
+    <mat-card-subtitle>Configure your session</mat-card-subtitle>
+  </mat-card-header>
+  <div class="session-settings">
+    <div class="timer-settings">
+      <mat-form-field appearance="outline">
+        <mat-label> Focus time</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="Enter focus time..."
+          min="10"
+          max="120"
+          step="5"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label> Break time</mat-label>
+        <input matInput type="number" placeholder="Enter break time..." min="5" max="60" step="5" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label> Loops number</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="Enter number of loops..."
+          min="1"
+          max="20"
+          step="1"
+        />
+      </mat-form-field>
+    </div>
+    <div class="tag-settings">
+      <mat-form-field appearance="fill">
+        <mat-icon matPrefix class="my-icon">search</mat-icon>
+        <input matInput [(ngModel)]="inputTag" type="text" placeholder="Search tag..." />
+      </mat-form-field>
+    </div>
+  </div>
+</mat-card>

@@ -5,13 +5,4 @@
   flex-wrap: wrap;
   align-items: center;
   height: calc(100vh - 60px);
-
-}
-
-.messages-container {
-  border: 2px solid black;
-}
-
-.session-container {
-  border: 2px solid black;
 }

@@ -15,7 +15,7 @@ mat-list-item::ng-deep .mat-mdc-list-item-unscoped-content {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: 500px;
+  width: 900px;
   margin-bottom: 8px;
 }
 
@@ -48,12 +48,16 @@ mat-list-item::ng-deep .mat-mdc-list-item-unscoped-content {
 }
 
 .delete-confirmation {
-  width: 100%;
   max-width: 500px;
   padding: 12px;
   background-color: white;
-  border-radius: 8x;
+  border-radius: 8px; 
   margin-top: 8px;
+}
+
+.delete-confirmation p {
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .delete-confirmation p {
