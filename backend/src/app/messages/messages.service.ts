@@ -42,4 +42,26 @@ export class MessagesService {
       },
     });
   }
+
+  async updateMessage(id: number, messageDto: MessageDto, userId: number) {
+    const msg = await this.messagesRepo.findOne({
+      where: { id, user: { id: userId } },
+    });
+    if (!msg) {
+      throw new Error('Message not found');
+    }
+
+    await this.messagesRepo.update(id, { text: messageDto.text });
+  }
+
+  async deleteMessage(id: number, userId: number) {
+    const msg = await this.messagesRepo.findOne({
+      where: { id, user: { id: userId } },
+    });
+
+    if (!msg) {
+      throw new Error('Message not found');
+    }
+    await this.messagesRepo.remove(msg); //status 200 ako je uspesno obrisana
+  }
 }

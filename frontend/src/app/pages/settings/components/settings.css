@@ -2,8 +2,10 @@
   background-color: antiquewhite;
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
   align-items: center;
   height: calc(100vh - 60px);
+
 }
 
 .messages-container {

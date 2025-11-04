@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  UseGuards,
+} from '@nestjs/common';
 import { JwtGuard } from 'src/core/auth/guards/jwt.guard';
 import { MessagesService } from './messages.service';
 import { MessageDto } from './dtos/message.dto';
@@ -19,5 +28,19 @@ export class MessagesController {
   @Get('all')
   allMessages(@CurrentUser() userId: number): Promise<Message[]> {
     return this.messagesService.getAllMessages(userId);
+  }
+
+  @Put('update/:id')
+  update(
+    @Param('id') id: number,
+    @Body() mesaageDto: MessageDto,
+    @CurrentUser() userId: number,
+  ) {
+    return this.messagesService.updateMessage(id, mesaageDto, userId);
+  }
+
+  @Delete('delete/:id')
+  delete(@Param('id') id: number, @CurrentUser() userId: number) {
+    return this.messagesService.deleteMessage(id, userId);
   }
 }

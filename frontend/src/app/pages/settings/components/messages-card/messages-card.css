@@ -3,11 +3,64 @@
   padding-bottom: 30px;
 }
 
-.message-container{
-    display: flex;
-    width: 400px;
+mat-list-item {
+  height: auto !important;
 }
-.actions{
-    display: flex;
-    justify-content: space-between;
+
+mat-list-item::ng-deep .mat-mdc-list-item-unscoped-content {
+  height: auto !important;
+}
+
+.message-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 500px;
+  margin-bottom: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 4px;
+}
+
+.inline-edit {
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  background: transparent;
+  font: inherit;
+  width: 100%;
+  padding: 2px 4px;
+  outline: none;
+  color: darkred;
+  background-color: wheat;
+}
+
+.inline-edit:focus {
+  border-bottom: 1px solid var(--mat-primary, #3f51b5);
+}
+
+.message-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.delete-confirmation {
+  width: 100%;
+  max-width: 500px;
+  padding: 12px;
+  background-color: white;
+  border-radius: 8x;
+  margin-top: 8px;
+}
+
+.delete-confirmation p {
+  margin: 0 0 8px 0;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 8px;
 }

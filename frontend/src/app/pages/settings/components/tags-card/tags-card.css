@@ -66,3 +66,11 @@
 .new-tag-container {
   display: flex;
 }
+
+.edit-icon mat-icon {
+  color: #964900;
+}
+
+.delete-icon mat-icon {
+  color: #964900;
+}
