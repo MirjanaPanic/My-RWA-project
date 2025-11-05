@@ -9,6 +9,7 @@
         <mat-label> Focus time</mat-label>
         <input
           matInput
+          [(ngModel)]="focusTime"
           type="number"
           placeholder="Enter focus time..."
           min="10"
@@ -19,13 +20,22 @@
 
       <mat-form-field appearance="outline">
         <mat-label> Break time</mat-label>
-        <input matInput type="number" placeholder="Enter break time..." min="5" max="60" step="5" />
+        <input
+          matInput
+          [(ngModel)]="breakTime"
+          type="number"
+          placeholder="Enter break time..."
+          min="5"
+          max="60"
+          step="5"
+        />
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label> Loops number</mat-label>
         <input
           matInput
+          [(ngModel)]="loops"
           type="number"
           placeholder="Enter number of loops..."
           min="1"
@@ -34,11 +44,28 @@
         />
       </mat-form-field>
     </div>
+
     <div class="tag-settings">
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="search-field">
         <mat-icon matPrefix class="my-icon">search</mat-icon>
-        <input matInput [(ngModel)]="inputTag" type="text" placeholder="Search tag..." />
+        <input
+          matInput
+          [(ngModel)]="inputTag"
+          (ngModelChange)="onInputTagChange($event)"
+          type="text"
+          placeholder="Search tag..."
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete #auto="matAutocomplete">
+          @for (tag of matchedTag$ | async; track tag) {
+          <mat-option [value]="tag.name" (click)="setSelectedTag(tag.id)">{{
+            tag.name
+          }}</mat-option>
+          }
+        </mat-autocomplete>
       </mat-form-field>
+      <mat-label *ngIf="selectedTag"> selected tag: {{ selectedTag.name }} </mat-label>
+      <button matButton="filled" class="btn-start" (click)="startSession()">START</button>
     </div>
   </div>
 </mat-card>

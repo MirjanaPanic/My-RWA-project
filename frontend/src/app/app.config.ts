@@ -18,6 +18,10 @@ import { tagsReducer } from './pages/settings/store/tags/tags.reducer';
 import { TagsEffects } from './pages/settings/store/tags/tags.effects';
 import { messagesReducer } from './pages/settings/store/messages/messages.reducer';
 import { MessagesEffects } from './pages/settings/store/messages/messages.effects';
+import { timerReducer } from './components/timer/store/timer.reducer';
+import { TimerEffects } from './components/timer/store/timer.effects';
+import { sessionReducer } from './components/session/store/session.reducers';
+import { SessionEffects } from './components/session/store/session.effect';
 
 
 export const appConfig: ApplicationConfig = {
@@ -27,8 +31,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
     importProvidersFrom(FormsModule),
-    provideStore({ auth: authReducer, tags: tagsReducer, messages:messagesReducer }),
-    provideEffects([AuthEffects, TagsEffects, MessagesEffects]), //DODATI KAD IZ KOMPONENTE DISPATCHUJEM!!!
+    provideStore({ auth: authReducer, tags: tagsReducer, messages:messagesReducer, timer:timerReducer, session:sessionReducer }),
+    provideEffects([AuthEffects, TagsEffects, MessagesEffects, TimerEffects, SessionEffects]), //DODATI KAD IZ KOMPONENTE DISPATCHUJEM!!!
     provideStoreDevtools(),
   ],
 };

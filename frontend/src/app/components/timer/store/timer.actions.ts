@@ -9,3 +9,6 @@ export const tagsMatchingSuccess = createAction(
   '[Timer] Tags that match search',
   props<{ tags: Tag[] }>()
 );
+
+
+//success da vrati parametre sesije, prikaze se session komponenta i setuju se parametri storea

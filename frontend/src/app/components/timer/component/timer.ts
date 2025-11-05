@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule, MatLabel } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Observable } from 'rxjs';
+import { debounceTime, filter, Observable, Subject } from 'rxjs';
 import { Tag } from '../../../pages/settings/models/tag.model';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
@@ -10,10 +10,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
 import { MatListModule } from '@angular/material/list';
 import { Store } from '@ngrx/store';
+import { getTagsMatchRequest } from '../store/timer.actions';
+import { selectMatchingTags } from '../store/timer.selectors';
+import { CommonModule } from '@angular/common';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatButtonModule } from '@angular/material/button';
+import { newSessionRequest } from '../../session/store/session.actions';
+import { selectSessionConfiguration } from '../../session/store/session.selectors';
 
 @Component({
   selector: 'app-timer',
   imports: [
+    CommonModule,
     FormsModule,
     MatCardModule,
     MatFormFieldModule,
@@ -23,13 +31,61 @@ import { Store } from '@ngrx/store';
     MatOptionModule,
     MatIconModule,
     MatListModule,
+    MatButtonModule,
+    MatAutocompleteModule,
   ],
   templateUrl: './timer.html',
   styleUrl: './timer.css',
 })
 export class Timer {
-  //matchedTag$: Observable<Tag[]>;
   inputTag: string = '';
 
-  constructor(private store: Store) {}
+  //odabrane vrednosti, prvo defaultne
+  focusTime: number = 50;
+  breakTime: number = 10;
+  loops: number = 4;
+  selectedTag: number | null = null; //opcioni, prikaz reaktivan da bude
+
+  searchSubject = new Subject<string>();
+  matchedTag$: Observable<Tag[]>;
+
+  sessionConfig$: Observable<{ roundTime: number; breakTime: number; repetitions: number }>;
+
+  constructor(private store: Store) {
+    this.matchedTag$ = this.store.select(selectMatchingTags);
+    this.sessionConfig$ = this.store.select(selectSessionConfiguration);
+  }
+
+  onInputTagChange(value: string) {
+    //value - to sto je u input trenutno
+    this.searchSubject.next(value); //upisuje se u subject svaku promenu iz inputa
+  }
+
+  setSelectedTag(tag: number) {
+    this.selectedTag = tag;
+  }
+
+  startSession() {
+    this.store.dispatch(
+      newSessionRequest({
+        focusTime: this.focusTime,
+        breakTime: this.breakTime,
+        loops: this.loops,
+        tagId: this.selectedTag,
+      })
+    );
+    console.log(this.focusTime, this.breakTime, this.loops, this.selectedTag);
+  }
+
+  ngOnInit() {
+    this.searchSubject
+      .pipe(
+        debounceTime(500),
+        filter((i) => i.length >= 3)
+      )
+      .subscribe((query) => {
+        console.log(query);
+        this.store.dispatch(getTagsMatchRequest({ input: query }));
+      });
+  }
 }

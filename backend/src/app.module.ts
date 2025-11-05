@@ -8,6 +8,7 @@ import { JwtStrategy } from './core/auth/strategies/jwt.strategy';
 import { JwtGuard } from './core/auth/guards/jwt.guard';
 import { TagsModule } from './app/tags/tags.module';
 import { MessagesModule } from './app/messages/messages.module';
+import { SessionsModule } from './app/sessions/session.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { MessagesModule } from './app/messages/messages.module';
     AuthModule,
     TagsModule,
     MessagesModule,
+    SessionsModule,
   ],
   controllers: [],
   providers: [
