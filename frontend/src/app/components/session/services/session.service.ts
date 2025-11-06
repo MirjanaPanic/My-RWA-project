@@ -15,7 +15,7 @@ export class SessionService {
     focusTime: number,
     breakTime: number,
     loops: number,
-    tagId: number
+    tagId?: number
   ): Observable<Session> {
     return this.http.post<Session>(`${environment.api}/session/new`, {
       focusTime,

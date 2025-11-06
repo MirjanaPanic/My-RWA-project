@@ -15,8 +15,9 @@ export class Session {
 
   @ManyToOne(() => Tag, (tag) => tag.sessions, {
     onDelete: 'CASCADE',
+    nullable: true, //OPCIONI
   })
-  tag: Tag; //OPCIONI
+  tag?: Tag;
 
   //note
 

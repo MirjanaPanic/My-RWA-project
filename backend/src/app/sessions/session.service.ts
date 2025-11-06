@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { DeepPartial, Repository } from 'typeorm';
 import { Session } from './entities/session.entity';
 import { SessionStatus } from './models/session.status';
 import { CreateSessionDto } from './dtos/createsession.dto';
@@ -16,8 +16,8 @@ export class SessionsService {
     createSessionDto: CreateSessionDto,
     userId: number,
   ): Promise<SessionDto> {
-    const newSession: Session = this.sessionsRepo.create({
-      tag: { id: createSessionDto.tagId },
+    const newSessionData: DeepPartial<Session> = {
+      //deo entiteta
       user: { id: userId },
       roundTime: createSessionDto.focusTime,
       repetitions: createSessionDto.loops,
@@ -26,8 +26,15 @@ export class SessionsService {
       currentRound: 1,
       timeLeft: createSessionDto.focusTime * 60,
       startTime: new Date(),
-    });
+    };
+
+    if (createSessionDto.tagId !== undefined) {
+      newSessionData.tag = { id: createSessionDto.tagId };
+    }
+
+    const newSession = this.sessionsRepo.create(newSessionData);
     const savedSession = await this.sessionsRepo.save(newSession);
+
     return {
       id: savedSession.id,
       roundTime: savedSession.roundTime,

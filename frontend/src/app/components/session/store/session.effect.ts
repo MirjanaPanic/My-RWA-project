@@ -15,7 +15,7 @@ export class SessionEffects {
     this.actions$.pipe(
       ofType(SessionActions.newSessionRequest),
       switchMap(({ focusTime, breakTime, loops, tagId }) =>
-        this.sessionService.createNewSession(focusTime, breakTime, loops, tagId!).pipe(
+        this.sessionService.createNewSession(focusTime, breakTime, loops, tagId ?? undefined).pipe(
           map((response) => {
             return SessionActions.newSessionSuccess({ session: response });
           })

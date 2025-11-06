@@ -1,4 +1,4 @@
-import { IsNumber } from 'class-validator';
+import { IsNumber, IsOptional } from 'class-validator';
 
 export class CreateSessionDto {
   @IsNumber()
@@ -10,6 +10,7 @@ export class CreateSessionDto {
   @IsNumber()
   loops: number;
 
+  @IsOptional()
   @IsNumber()
-  tagId: number;
+  tagId?: number;
 }

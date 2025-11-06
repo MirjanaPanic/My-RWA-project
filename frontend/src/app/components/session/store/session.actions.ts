@@ -4,7 +4,7 @@ import { Session } from '../models/session.model';
 
 export const newSessionRequest = createAction(
   '[Session] Request for creating new session',
-  props<{ focusTime: number; breakTime: number; loops: number; tagId: number | null }>()
+  props<{ focusTime: number; breakTime: number; loops: number; tagId?: number | null }>()
 );
 
 export const newSessionSuccess = createAction(
