@@ -38,5 +38,11 @@
   height: 100px;
   border-radius: 50%;
   margin-top: 20px;
-  margin-left:120px;
+
+}
+
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,1 +1,9 @@
-<p>session works!</p>
+<div class="session-container">
+  <div *ngIf="combined$ | async as data">
+    <p class="round-counter">round {{ data.current }} / {{ data.config.repetitions }}</p>
+  </div>
+  <div class="timer-circle">
+    <div *ngIf="timeLeft$ | async as time">{{ time / 60 }}</div>
+  </div>
+  <button matButton="elevated" class="action-button">STOP</button>
+</div>

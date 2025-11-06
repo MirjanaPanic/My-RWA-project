@@ -8,8 +8,8 @@ export const initialState: SessionState = {
   roundTime: 0,
   repetitions: 0,
   breakTime: 0,
-  startTime: new Date('2025-11-05T10:00:00'),
-  sessionStatus: SessionStatus.CANCEL,
+  startTime: null,
+  sessionStatus: null,
   currentRound: 0,
   timeLeft: 0,
 };
@@ -18,6 +18,6 @@ export const sessionReducer = createReducer(
   initialState,
   on(SessionActions.newSessionSuccess, (state, { session }) => ({
     ...state,
-    session,
+    ...session,
   }))
 );

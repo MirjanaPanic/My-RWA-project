@@ -11,3 +11,13 @@ export const selectSessionConfiguration = createSelector(
     repetitions: state.repetitions,
   })
 );
+
+export const selectIsSessionActive = createSelector(
+  selectSessionState,
+  (session) => session.sessionStatus === 0 //0 = IN_PROGRESS
+  //true or false
+);
+
+export const selectCurrentRound=createSelector(selectSessionState, (session)=>session.currentRound)
+
+export const selectTimeLeft=createSelector(selectSessionState, (session)=>session.timeLeft)

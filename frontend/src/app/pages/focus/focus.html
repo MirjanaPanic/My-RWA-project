@@ -1,4 +1,8 @@
 <app-navbar></app-navbar>
 <div class="focus-container">
+  @if (isSessionActive$ | async) {
+  <app-session></app-session>
+  } @else {
   <app-timer></app-timer>
+  }
 </div>

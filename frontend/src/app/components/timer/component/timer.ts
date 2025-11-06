@@ -16,11 +16,12 @@ import { CommonModule } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { newSessionRequest } from '../../session/store/session.actions';
-import { selectSessionConfiguration } from '../../session/store/session.selectors';
+import { Session } from '../../session/component/session';
 
 @Component({
   selector: 'app-timer',
   imports: [
+    Session,
     CommonModule,
     FormsModule,
     MatCardModule,
@@ -44,24 +45,24 @@ export class Timer {
   focusTime: number = 50;
   breakTime: number = 10;
   loops: number = 4;
-  selectedTag: number | null = null; //opcioni, prikaz reaktivan da bude
+  selectedTag: Tag | null = null; //opcioni, prikaz reaktivan da bude
 
   searchSubject = new Subject<string>();
   matchedTag$: Observable<Tag[]>;
 
-  sessionConfig$: Observable<{ roundTime: number; breakTime: number; repetitions: number }>;
-
   constructor(private store: Store) {
     this.matchedTag$ = this.store.select(selectMatchingTags);
-    this.sessionConfig$ = this.store.select(selectSessionConfiguration);
   }
 
   onInputTagChange(value: string) {
     //value - to sto je u input trenutno
     this.searchSubject.next(value); //upisuje se u subject svaku promenu iz inputa
+    if (!value) {
+      this.selectedTag = null;
+    }
   }
 
-  setSelectedTag(tag: number) {
+  setSelectedTag(tag: Tag) {
     this.selectedTag = tag;
   }
 
@@ -71,7 +72,7 @@ export class Timer {
         focusTime: this.focusTime,
         breakTime: this.breakTime,
         loops: this.loops,
-        tagId: this.selectedTag,
+        tagId: this.selectedTag?.id,
       })
     );
     console.log(this.focusTime, this.breakTime, this.loops, this.selectedTag);

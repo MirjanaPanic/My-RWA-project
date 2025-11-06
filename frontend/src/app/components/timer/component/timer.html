@@ -56,15 +56,20 @@
           placeholder="Search tag..."
           [matAutocomplete]="auto"
         />
-        <mat-autocomplete #auto="matAutocomplete">
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="setSelectedTag($event.option.value)"
+        >
           @for (tag of matchedTag$ | async; track tag) {
-          <mat-option [value]="tag.name" (click)="setSelectedTag(tag.id)">{{
-            tag.name
-          }}</mat-option>
+          <mat-option [value]="tag.name">{{ tag.name }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
-      <button matButton="filled" class="btn-start" (click)="startSession()">START</button>
+
+      <mat-label> Selected tag: {{ selectedTag ? selectedTag : 'none' }} </mat-label>
+      <div class="btn-container">
+        <button matButton="filled" class="btn-start" (click)="startSession()">START</button>
+      </div>
     </div>
   </div>
 </mat-card>

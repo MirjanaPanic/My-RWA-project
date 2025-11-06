@@ -1,4 +1,4 @@
-import { Tag } from '../../../pages/settings/models/tag.model';
+
 import { SessionStatus } from './session.status';
 
 export interface Session {

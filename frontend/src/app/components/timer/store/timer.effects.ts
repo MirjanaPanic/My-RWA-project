@@ -19,16 +19,7 @@ export class TimerEffects {
           map((response) => {
             return TimerActions.tagsMatchingSuccess({ tags: response });
           })
-          /*catchError((error) =>
-            of(
-              AuthActions.loginFailure({
-                error:
-                  error.status === 401
-                    ? 'Unauthorized user'
-                    : 'An error occurred. Please try again.',
-              })
-            )
-          )*/
+        
         )
       )
     )
