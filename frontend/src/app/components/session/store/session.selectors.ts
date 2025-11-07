@@ -18,6 +18,14 @@ export const selectIsSessionActive = createSelector(
   //true or false
 );
 
-export const selectCurrentRound=createSelector(selectSessionState, (session)=>session.currentRound)
+export const selectCurrentRound = createSelector(
+  selectSessionState,
+  (session) => session.currentRound
+);
 
-export const selectTimeLeft=createSelector(selectSessionState, (session)=>session.timeLeft)
+export const selectTimeLeft = createSelector(selectSessionState, (session) => session.timeLeft);
+
+export const selectSessionStatus = createSelector(
+  selectSessionState,
+  (state) => state.sessionStatus
+);
