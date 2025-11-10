@@ -5,11 +5,21 @@
   <div class="timer-circle">
     <div *ngIf="timeLeft$ | async as time">{{ displayTime }}</div>
   </div>
-  <button matButton="elevated" class="action-button" *ngIf="!isPaused" (click)="pause()">
+  <button
+    matButton="elevated"
+    class="action-button"
+    *ngIf="status === SessionStatus.IN_PROGRESS || status === SessionStatus.BREAK"
+    (click)="pause()"
+  >
     PAUSE
   </button>
-  <button matButton="elevated" class="action-button" *ngIf="isPaused" (click)="continue()">
+  <button
+    matButton="elevated"
+    class="action-button"
+    *ngIf="status === SessionStatus.PAUSED_WORK || status === SessionStatus.PAUSED_BREAK"
+    (click)="continue()"
+  >
     CONTINUE
   </button>
-  <button matButton="elevated" class="action-button">CANCEL</button>
+  <button matButton="elevated" class="action-button" (click)="stopTimer()">CANCEL</button>
 </div>

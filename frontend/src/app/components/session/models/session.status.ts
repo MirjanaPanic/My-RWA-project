@@ -1,6 +1,6 @@
 export enum SessionStatus {
-  START,
   IN_PROGRESS,
+  BREAK,
   PAUSED_WORK, //pauzirao rad
   PAUSED_BREAK, //pauzirao pauzu
   DONE,
