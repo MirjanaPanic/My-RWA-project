@@ -12,11 +12,16 @@ export const initialState: SessionState = {
   sessionStatus: null,
   currentRound: 0,
   timeLeft: 0,
+  id: null,
 };
 
 export const sessionReducer = createReducer(
   initialState,
   on(SessionActions.newSessionSuccess, (state, { session }) => ({
+    ...state,
+    ...session,
+  })),
+  on(SessionActions.updatedSessionSuccess, (state, { session }) => ({
     ...state,
     ...session,
   }))

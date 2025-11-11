@@ -12,10 +12,10 @@ export const selectSessionConfiguration = createSelector(
   })
 );
 
-export const selectIsSessionActive = createSelector(
+//ako je startovana sesija, da se mountuje tajmer 
+export const selectHasSession = createSelector(
   selectSessionState,
-  (session) => session.sessionStatus === 0 //0 = IN_PROGRESS
-  //true or false
+  (session) => session.sessionStatus != null
 );
 
 export const selectCurrentRound = createSelector(
@@ -29,3 +29,5 @@ export const selectSessionStatus = createSelector(
   selectSessionState,
   (state) => state.sessionStatus
 );
+
+export const selectSessionId = createSelector(selectSessionState, (session) => session.id);

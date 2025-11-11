@@ -3,7 +3,7 @@ export enum SessionStatus {
   BREAK,
   PAUSED_WORK, //pauzirao rad
   PAUSED_BREAK, //pauzirao pauzu
-  DONE,
+  DONE, //finish - kad je cela zavrsena :)
   EARLY_DONE,
   CANCEL,
 }

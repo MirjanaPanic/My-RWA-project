@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 import { Tag } from '../../../pages/settings/models/tag.model';
 import { Session } from '../models/session.model';
+import { SessionStatus } from '../models/session.status';
 
 export const newSessionRequest = createAction(
   '[Session] Request for creating new session',
@@ -12,4 +13,17 @@ export const newSessionSuccess = createAction(
   props<{ session: Session }>()
 );
 
+export const pausedWorkRequest = createAction(
+  '[Session] Pause detected while focus phase',
+  props<{ timeLeft: number; status: SessionStatus }>()
+);
 
+export const continueRequest = createAction(
+  '[Session] Continue session',
+  props<{ status: SessionStatus }>()
+);
+
+export const updatedSessionSuccess = createAction(
+  '[Session] Latest version of session record in database',
+  props<{ session: Session }>()
+);

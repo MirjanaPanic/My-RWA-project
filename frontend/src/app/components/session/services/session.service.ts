@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Session } from '../models/session.model';
 import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
+import { SessionStatus } from '../models/session.status';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +23,19 @@ export class SessionService {
       breakTime,
       loops,
       tagId,
+    });
+  }
+
+  pausedWorkUpdate(id: number, timeLeft: number, status: SessionStatus): Observable<Session> {
+    return this.http.patch<Session>(`${environment.api}/session/pausedWork/${id}`, {
+      timeLeft,
+      status,
+    });
+  }
+
+  continueSession(id: number, status: SessionStatus): Observable<Session> {
+    return this.http.patch<Session>(`${environment.api}/session/continue/${id}`, {
+      status,
     });
   }
 }

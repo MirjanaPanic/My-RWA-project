@@ -16,12 +16,10 @@ import { CommonModule } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { newSessionRequest } from '../../session/store/session.actions';
-import { Session } from '../../session/component/session';
 
 @Component({
   selector: 'app-timer',
   imports: [
-    Session,
     CommonModule,
     FormsModule,
     MatCardModule,

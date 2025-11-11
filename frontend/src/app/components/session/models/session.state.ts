@@ -9,4 +9,5 @@ export interface SessionState {
   sessionStatus: SessionStatus | null;
   currentRound: number;
   timeLeft: number;
+  id: number | null;
 }
