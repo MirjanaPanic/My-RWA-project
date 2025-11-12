@@ -41,12 +41,96 @@ export class SessionEffects {
     )
   );
 
+  pausedBreak$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SessionActions.pausedBreakRequest),
+      withLatestFrom(this.store.select(selectSessionId)), //stream akcija i stream selectId
+      switchMap(([action, sessionId]) =>
+        this.sessionService.pausedBreakUpdate(sessionId!, action.timeLeft, action.status).pipe(
+          map((response) => {
+            return SessionActions.updatedSessionSuccess({ session: response });
+          })
+        )
+      )
+    )
+  );
+
   continue$ = createEffect(() =>
     this.actions$.pipe(
       ofType(SessionActions.continueRequest),
       withLatestFrom(this.store.select(selectSessionId)), //stream akcija i stream selectId
       switchMap(([action, sessionId]) =>
         this.sessionService.continueSession(sessionId!, action.status).pipe(
+          map((response) => {
+            return SessionActions.updatedSessionSuccess({ session: response });
+          })
+        )
+      )
+    )
+  );
+
+  cancel$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SessionActions.cancelSessionRequest),
+      withLatestFrom(this.store.select(selectSessionId)), //stream akcija i stream selectId
+      switchMap(([action, sessionId]) =>
+        this.sessionService.cancelSession(sessionId!, action.status).pipe(
+          map((response) => {
+            return SessionActions.updatedSessionSuccess({ session: response });
+          })
+        )
+      )
+    )
+  );
+
+  breakTime$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SessionActions.breakTimeRequest),
+      withLatestFrom(this.store.select(selectSessionId)), //stream akcija i stream selectId
+      switchMap(([action, sessionId]) =>
+        this.sessionService.breakTimeStarted(sessionId!, action.status).pipe(
+          map((response) => {
+            return SessionActions.updatedSessionSuccess({ session: response });
+          })
+        )
+      )
+    )
+  );
+
+  nextRound$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SessionActions.nextRoundRequest),
+      withLatestFrom(this.store.select(selectSessionId)), //stream akcija i stream selectId
+      switchMap(([action, sessionId]) =>
+        this.sessionService.nextRoundRequest(sessionId!, action.status).pipe(
+          map((response) => {
+            return SessionActions.updatedSessionSuccess({ session: response });
+          })
+        )
+      )
+    )
+  );
+
+  done$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SessionActions.doneSessionRequest),
+      withLatestFrom(this.store.select(selectSessionId)), //stream akcija i stream selectId
+      switchMap(([action, sessionId]) =>
+        this.sessionService.doneSession(sessionId!, action.timeLeft, action.status).pipe(
+          map((response) => {
+            return SessionActions.updatedSessionSuccess({ session: response });
+          })
+        )
+      )
+    )
+  );
+
+   earlyDone$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SessionActions.earlyDoneSessionRequest),
+      withLatestFrom(this.store.select(selectSessionId)), //stream akcija i stream selectId
+      switchMap(([action, sessionId]) =>
+        this.sessionService.doneSession(sessionId!, action.timeLeft, action.status).pipe(
           map((response) => {
             return SessionActions.updatedSessionSuccess({ session: response });
           })

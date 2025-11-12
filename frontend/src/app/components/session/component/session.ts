@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { combineLatest, map, Observable, take } from 'rxjs';
+import { combineLatest, filter, map, Observable, take } from 'rxjs';
 import {
   selectCurrentRound,
+  selectNextRound,
   selectSessionConfiguration,
   selectTimeLeft,
 } from '../store/session.selectors';
@@ -10,7 +11,16 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 import { SessionConfig } from '../models/sessionconfig';
 import { MatButtonModule } from '@angular/material/button';
 import { SessionStatus } from '../models/session.status';
-import { continueRequest, pausedWorkRequest } from '../store/session.actions';
+import {
+  breakTimeRequest,
+  cancelSessionRequest,
+  continueRequest,
+  doneSessionRequest,
+  earlyDoneSessionRequest,
+  nextRoundRequest,
+  pausedBreakRequest,
+  pausedWorkRequest,
+} from '../store/session.actions';
 
 @Component({
   selector: 'app-session',
@@ -29,6 +39,9 @@ export class Session {
   timeLeft$: Observable<number>; //tok
   secondsLeft: number = -1; //vrednost iz toka
 
+  //nextRound
+  nextRound$: Observable<{ currentRound: number; timeLeft: number }>;
+
   displayTime: string = 'START';
   intervalId: number | null = null;
 
@@ -39,6 +52,7 @@ export class Session {
   constructor(private store: Store) {
     this.sessionConfig$ = this.store.select(selectSessionConfiguration);
     this.currentRound$ = this.store.select(selectCurrentRound);
+    this.nextRound$ = this.store.select(selectNextRound);
     this.combined$ = combineLatest([this.sessionConfig$, this.currentRound$]).pipe(
       map(([config, current]) => ({ config, current }))
     );
@@ -48,7 +62,7 @@ export class Session {
 
   ngOnInit() {
     this.timeLeft$.pipe(take(1)).subscribe((val) => {
-      this.secondsLeft = val;
+      this.secondsLeft = val; //inicijalni config
       this.sessionFlow();
     });
   }
@@ -58,56 +72,91 @@ export class Session {
     this.displayTime = this.formatTime(this.secondsLeft);
   }
 
+  successSession() {
+    this.stopTimer();
+    this.displayTime = 'THE END';
+    this.status = SessionStatus.DONE;
+    // 0 timeleft
+    this.store.dispatch(doneSessionRequest({ timeLeft: this.secondsLeft, status: this.status }));
+  }
+
+  breakOrEnd() {
+    const end = this.combined$.pipe(take(1)).subscribe((l) => {
+      if (l.config.repetitions == l.current) {
+        //kraj, nema vise ni pauza ni rundi
+        this.successSession();
+      } else {
+        //pauza, jer imamo jos rundi
+        this.breakTime();
+      }
+    });
+  }
+
+  nextRound() {
+    this.status = SessionStatus.IN_PROGRESS;
+    this.store.dispatch(nextRoundRequest({ status: this.status }));
+    this.sessionConfig$.pipe(take(1)).subscribe((cfg) => {
+      this.secondsLeft = cfg.roundTime;
+      this.focusTime();
+    });
+  }
+
   focusTime() {
     this.stopTimer();
     this.intervalId = setInterval(() => {
       if (this.secondsLeft > 0) {
         this.timeCounter();
       } else {
-        console.log('PAUZA');
-        const end = this.combined$.subscribe((l) => {
-          if (l.config.repetitions == l.current) {
-            //kraj, nema vise ni pauza ni rundi
-            this.stopTimer();
-            this.displayTime = 'the end';
-          } else {
-            //pauza, jer imamo jos rundi
-            this.breakTime();
-          }
-        });
+        this.breakOrEnd();
       }
     }, 1000);
   }
 
   breakTime() {
-    this.stopTimer();
-    console.log('breakTime function');
+    this.stopTimer(); //nebitno??
     this.status = SessionStatus.BREAK;
+    this.store.dispatch(breakTimeRequest({ status: this.status }));
+
     this.sessionConfig$.pipe(take(1)).subscribe((bt) => {
-      console.log('bt' + this.secondsLeft);
       this.secondsLeft = bt.breakTime;
-      console.log('bt' + this.secondsLeft);
       this.intervalId = setInterval(() => {
         if (this.secondsLeft > 0) {
           this.timeCounter();
+        } else {
+          //this.stopTimer();
+          this.nextRound();
         }
       }, 1000);
     });
   }
 
+  resumeBreakTime() {
+    this.stopTimer();
+    this.intervalId = setInterval(() => {
+      if (this.secondsLeft > 0) {
+        this.timeCounter();
+      } else {
+        this.nextRound();
+      }
+    }, 1000);
+  }
+
   pauseWork() {
     this.status = SessionStatus.PAUSED_WORK;
-    //akcija
     this.store.dispatch(pausedWorkRequest({ timeLeft: this.secondsLeft, status: this.status }));
   }
 
   pauseBreak() {
     this.status = SessionStatus.PAUSED_BREAK;
+    this.store.dispatch(pausedBreakRequest({ timeLeft: this.secondsLeft, status: this.status }));
   }
 
   sessionFlow() {
     if (this.status === SessionStatus.IN_PROGRESS) {
       this.focusTime();
+    }
+    if (this.status === SessionStatus.BREAK) {
+      this.breakTime();
     }
     if (this.status === SessionStatus.PAUSED_WORK) {
       this.pauseWork();
@@ -131,15 +180,26 @@ export class Session {
   }
 
   continue() {
-    if (
-      this.status === SessionStatus.PAUSED_BREAK ||
-      (this.status === SessionStatus.PAUSED_WORK && this.secondsLeft > 0)
-    ) {
+    if (this.status === SessionStatus.PAUSED_BREAK) {
+      this.status = SessionStatus.BREAK;
+      this.resumeBreakTime();
+    } else if (this.status === SessionStatus.PAUSED_WORK) {
       this.status = SessionStatus.IN_PROGRESS;
-      console.log('status continue ' + this.status);
-      this.store.dispatch(continueRequest({ status: this.status }));
+      this.focusTime();
     }
-    this.sessionFlow();
+  }
+
+  cancel() {
+    this.status = SessionStatus.CANCEL;
+    //moze cak i da brise zapis u toj sesiji.. neka za sad tako
+    this.store.dispatch(cancelSessionRequest({ status: this.status }));
+  }
+
+  earlyDone() {
+    this.status = SessionStatus.EARLY_DONE;
+    this.store.dispatch(
+      earlyDoneSessionRequest({ timeLeft: this.secondsLeft, status: this.status })
+    );
   }
 
   stopTimer() {

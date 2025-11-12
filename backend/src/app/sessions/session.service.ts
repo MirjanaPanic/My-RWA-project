@@ -20,12 +20,12 @@ export class SessionsService {
     const newSessionData: DeepPartial<Session> = {
       //deo entiteta
       user: { id: userId },
-      roundTime: createSessionDto.focusTime,
+      roundTime: createSessionDto.focusTime * 60,
       repetitions: createSessionDto.loops,
-      breakTime: createSessionDto.breakTime,
+      breakTime: createSessionDto.breakTime * 60, //u sekundama
       sessionStatus: SessionStatus.IN_PROGRESS,
       currentRound: 1,
-      timeLeft: createSessionDto.focusTime * 60,
+      timeLeft: createSessionDto.focusTime * 60, //u sekundama
       startTime: new Date(),
     };
 
@@ -71,6 +71,46 @@ export class SessionsService {
     if (!session) throw new NotFoundException('Session not found');
 
     session.sessionStatus = status;
+
+    return this.sessionsRepo.save(session);
+  }
+
+  async canceled(sessionId: number, status: SessionStatus): Promise<Session> {
+    //mozda da se brise zapis o sesiji, razmotriti
+    const session = await this.sessionsRepo.findOne({
+      where: { id: sessionId },
+    });
+    if (!session) throw new NotFoundException('Session not found');
+
+    session.sessionStatus = status;
+
+    return this.sessionsRepo.save(session);
+  }
+
+  async breakTimeStarted(
+    sessionId: number,
+    status: SessionStatus,
+  ): Promise<Session> {
+    const session = await this.sessionsRepo.findOne({
+      where: { id: sessionId },
+    });
+    if (!session) throw new NotFoundException('Session not found');
+
+    session.sessionStatus = status;
+    session.timeLeft = session.breakTime;
+
+    return this.sessionsRepo.save(session);
+  }
+
+  async nextRound(sessionId: number, status: SessionStatus): Promise<Session> {
+    const session = await this.sessionsRepo.findOne({
+      where: { id: sessionId },
+    });
+    if (!session) throw new NotFoundException('Session not found');
+
+    session.sessionStatus = status;
+    session.currentRound = session.currentRound + 1;
+    session.timeLeft = session.roundTime;
 
     return this.sessionsRepo.save(session);
   }

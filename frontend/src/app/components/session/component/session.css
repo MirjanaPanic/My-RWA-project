@@ -4,6 +4,8 @@
   border: 10px solid orange;
   border-radius: 50%;
   background: transparent;
+  background: rgba(255, 255, 255, 0.1); 
+  backdrop-filter: blur(5px); 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -13,7 +15,7 @@
 .session-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items:center;
   justify-content: space-between;
 }
 
@@ -25,3 +27,16 @@
   font-size: 20px;
   padding: 16px 40px;
 }
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+button, p{
+  margin: 10px;
+  font-weight: bold;
+}
+ 

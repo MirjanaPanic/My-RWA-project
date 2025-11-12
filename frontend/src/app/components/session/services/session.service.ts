@@ -27,7 +27,14 @@ export class SessionService {
   }
 
   pausedWorkUpdate(id: number, timeLeft: number, status: SessionStatus): Observable<Session> {
-    return this.http.patch<Session>(`${environment.api}/session/pausedWork/${id}`, {
+    return this.http.patch<Session>(`${environment.api}/session/pause/${id}`, {
+      timeLeft,
+      status,
+    });
+  }
+
+  pausedBreakUpdate(id: number, timeLeft: number, status: SessionStatus): Observable<Session> {
+    return this.http.patch<Session>(`${environment.api}/session/pause/${id}`, {
       timeLeft,
       status,
     });
@@ -35,6 +42,31 @@ export class SessionService {
 
   continueSession(id: number, status: SessionStatus): Observable<Session> {
     return this.http.patch<Session>(`${environment.api}/session/continue/${id}`, {
+      status,
+    });
+  }
+
+  cancelSession(id: number, status: SessionStatus): Observable<Session> {
+    return this.http.patch<Session>(`${environment.api}/session/cancel/${id}`, {
+      status,
+    });
+  }
+
+  breakTimeStarted(id: number, status: SessionStatus): Observable<Session> {
+    return this.http.patch<Session>(`${environment.api}/session/breaktime/${id}`, {
+      status,
+    });
+  }
+
+  nextRoundRequest(id: number, status: SessionStatus): Observable<Session> {
+    return this.http.patch<Session>(`${environment.api}/session/nextRound/${id}`, {
+      status,
+    });
+  }
+
+  doneSession(id: number, timeLeft: number, status: SessionStatus): Observable<Session> {
+    return this.http.patch<Session>(`${environment.api}/session/done/${id}`, {
+      timeLeft,
       status,
     });
   }

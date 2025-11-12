@@ -19,11 +19,6 @@ import { SessionStatus } from './models/session.status';
 export class SessionsController {
   constructor(private readonly sessionsService: SessionsService) {}
 
-  //kreiranje nove sesije
-  /* focusTime: this.focusTime,
-        breakTime: this.breakTime,
-        loops: this.loops,
-        tag: this.selectedTag,*/
   @Post('new')
   create(
     @Body() createSessionDto: CreateSessionDto,
@@ -33,7 +28,7 @@ export class SessionsController {
     return this.sessionsService.createSession(createSessionDto, userId);
   }
 
-  @Patch('pausedWork/:id')
+  @Patch('pause/:id')
   updateSession(
     @Param('id') id: number,
     @Body() updateSessionDto: UpdateSessionDto,
@@ -47,5 +42,37 @@ export class SessionsController {
     @Body('status') status: SessionStatus,
   ): Promise<Session> {
     return this.sessionsService.continue(id, status);
+  }
+
+  @Patch('cancel/:id')
+  cancelSession(
+    @Param('id') id: number,
+    @Body('status') status: SessionStatus,
+  ): Promise<Session> {
+    return this.sessionsService.canceled(id, status);
+  }
+
+  @Patch('breaktime/:id')
+  breakTimeStarted(
+    @Param('id') id: number,
+    @Body('status') status: SessionStatus,
+  ): Promise<Session> {
+    return this.sessionsService.breakTimeStarted(id, status);
+  }
+
+  @Patch('nextRound/:id')
+  nextRoundRequest(
+    @Param('id') id: number,
+    @Body('status') status: SessionStatus,
+  ): Promise<Session> {
+    return this.sessionsService.nextRound(id, status);
+  }
+
+  @Patch('done/:id')
+  doneSession(
+    @Param('id') id: number,
+    @Body() updateSessionDto: UpdateSessionDto,
+  ): Promise<Session> {
+    return this.sessionsService.updateSession(id, updateSessionDto);
   }
 }

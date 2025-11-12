@@ -18,8 +18,38 @@ export const pausedWorkRequest = createAction(
   props<{ timeLeft: number; status: SessionStatus }>()
 );
 
+export const pausedBreakRequest = createAction(
+  '[Session] Pause detected while break phase',
+  props<{ timeLeft: number; status: SessionStatus }>()
+);
+
+export const cancelSessionRequest = createAction(
+  '[Session] Request for cancel session',
+  props<{ status: SessionStatus }>()
+);
+
+export const doneSessionRequest = createAction(
+  '[Session] Session is full completed',
+  props<{ timeLeft: number; status: SessionStatus }>()
+);
+
+export const earlyDoneSessionRequest = createAction(
+  '[Session] Session is done earlier, on demand.',
+  props<{ timeLeft: number; status: SessionStatus }>()
+);
+
 export const continueRequest = createAction(
   '[Session] Continue session',
+  props<{ status: SessionStatus }>()
+);
+
+export const breakTimeRequest = createAction(
+  '[Session] Break time started.',
+  props<{ status: SessionStatus }>()
+);
+
+export const nextRoundRequest = createAction(
+  '[Session] Next round is ready to start',
   props<{ status: SessionStatus }>()
 );
 
