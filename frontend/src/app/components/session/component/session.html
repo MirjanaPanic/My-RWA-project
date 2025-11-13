@@ -1,7 +1,7 @@
 <div class="session-container">
-  @if (status!==SessionStatus.BREAK && status !== SessionStatus.PAUSED_BREAK) { @if (combined$ |
+  @if (status !== SessionStatus.BREAK && status !== SessionStatus.PAUSED_BREAK) { @if (combined$ |
   async; as data) {
-  <p class="round-counter">round {{ data.current }} / {{ data.config.repetitions }}</p>
+  <p class="round-counter">Round {{ data.current }} / {{ data.config.repetitions }}</p>
   } } @else {
   <p class="round-counter">It's break time! ☕</p>
   }
@@ -12,11 +12,17 @@
     }
   </div>
 
-  @if (status === SessionStatus.IN_PROGRESS || status === SessionStatus.BREAK) {
+  @if (status === SessionStatus.IN_PROGRESS || status === SessionStatus.PAUSED_WORK) { @if
+  (messageToShow$ | async; as messageToShow) {
+  <p>{{ messageToShow }}</p>
+  } @else {
+  <p>You can do it</p>
+  } } @if (status === SessionStatus.IN_PROGRESS || status === SessionStatus.BREAK) {
   <button matButton="elevated" class="action-button" (click)="pause()">PAUSE</button>
   } @if (status === SessionStatus.PAUSED_WORK || status === SessionStatus.PAUSED_BREAK) {
   <button matButton="filled" class="action-button" (click)="continue()">CONTINUE</button>
   }
+
   <div class="actions">
     <button matButton="outlined" class="action-button" (click)="cancel()">CANCEL</button>
     <button matButton="outlined" class="action-button" (click)="earlyDone()">DONE</button>

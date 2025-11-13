@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { combineLatest, filter, map, Observable, take } from 'rxjs';
+import { BehaviorSubject, combineLatest, filter, map, Observable, startWith, take } from 'rxjs';
 import {
   selectCurrentRound,
+  selectHasSession,
   selectNextRound,
   selectSessionConfiguration,
   selectTimeLeft,
@@ -21,6 +22,9 @@ import {
   pausedBreakRequest,
   pausedWorkRequest,
 } from '../store/session.actions';
+import { Message } from '../../../pages/settings/models/message.model';
+import { selectAllMessages } from '../../../pages/settings/store/messages/messages.selectors';
+import { getAllMessagesRequest } from '../../../pages/settings/store/messages/messages.actions';
 
 @Component({
   selector: 'app-session',
@@ -49,6 +53,13 @@ export class Session {
   status: SessionStatus = SessionStatus.IN_PROGRESS;
   SessionStatus = SessionStatus; //mora biti svojstvo klase, da bi se videlo u sablon
 
+  allMessages$: Observable<Message[]>;
+  allMessages: Message[] = [];
+  messageToShow$!: Observable<string>;
+
+  secondsLeftSubject = new BehaviorSubject<number>(-1); //inicijalna vrednost
+  secondsLeft$ = this.secondsLeftSubject.asObservable();
+
   constructor(private store: Store) {
     this.sessionConfig$ = this.store.select(selectSessionConfiguration);
     this.currentRound$ = this.store.select(selectCurrentRound);
@@ -58,25 +69,56 @@ export class Session {
     );
     //u sekundama
     this.timeLeft$ = this.store.select(selectTimeLeft);
+    this.allMessages$ = this.store.select(selectAllMessages);
   }
 
   ngOnInit() {
+    this.store.dispatch(getAllMessagesRequest());
+    
     this.timeLeft$.pipe(take(1)).subscribe((val) => {
       this.secondsLeft = val; //inicijalni config
-      this.sessionFlow();
+      console.log(this.secondsLeft);
+      //
+    });
+    this.allMessages$.subscribe((messages) => {
+      console.log(messages);
+      if (messages.length > 0) {
+        console.log(messages);
+        this.allMessages = messages;
+        console.log(this.allMessages);
+        this.messageStreamInit();
+        this.sessionFlow();
+      }
     });
   }
 
+  messageStreamInit() {
+    this.messageToShow$ = combineLatest([this.secondsLeft$, this.sessionConfig$]).pipe(
+      filter(([secondsLeft, config]) => !!config),
+      map(([secondsLeft, config]) => {
+        const percent = (secondsLeft / config.roundTime) * 100;
+        return { percent };
+      }),
+      filter(({ percent }) => percent === 50 || percent === 10),
+      map(() => {
+        if (!this.allMessages.length) return 'Keep going!';
+        const randomIndex = Math.floor(Math.random() * this.allMessages.length);
+        return this.allMessages[randomIndex].text;
+      })
+    );
+  }
+
   timeCounter() {
-    this.secondsLeft--;
-    this.displayTime = this.formatTime(this.secondsLeft);
+    const current = this.secondsLeft - 1; // smanji sekunde
+    this.secondsLeft = current; // možeš i dalje držati lokalnu vrednost
+    this.secondsLeftSubject.next(current); // emituje novu vrednost kroz Observable
+    this.displayTime = this.formatTime(current);
   }
 
   successSession() {
     this.stopTimer();
     this.displayTime = 'THE END';
     this.status = SessionStatus.DONE;
-    // 0 timeleft
     this.store.dispatch(doneSessionRequest({ timeLeft: this.secondsLeft, status: this.status }));
   }
 
@@ -177,6 +219,7 @@ export class Session {
     if (this.status === SessionStatus.BREAK) {
       this.pauseBreak();
     }
+    //
   }
 
   continue() {

@@ -24,4 +24,6 @@ export class Focus {
     this.hasSession$ = this.store.select(selectHasSession);
     //this.breaktime$ = this.store.select(selectBreaktimeStatus);
   }
+
+  
 }
