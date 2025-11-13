@@ -1,0 +1,16 @@
+<app-navbar></app-navbar>
+
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Statistics</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="statistics-container">
+      <div>
+        @if (dailyAvgFocus$ | async; as dailyAvg) { Average daily focus time: {{ dailyAvg }} min}
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<p>{{ token }}</p>

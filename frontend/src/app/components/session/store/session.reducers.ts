@@ -24,5 +24,9 @@ export const sessionReducer = createReducer(
   on(SessionActions.updatedSessionSuccess, (state, { session }) => ({
     ...state,
     ...session,
+  })),
+  on(SessionActions.setStatusInProgres, (state) => ({
+    ...state,
+    sessionStatus: SessionStatus.IN_PROGRESS,
   }))
 );

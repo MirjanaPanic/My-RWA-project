@@ -21,6 +21,7 @@ import {
   nextRoundRequest,
   pausedBreakRequest,
   pausedWorkRequest,
+  setStatusInProgres,
 } from '../store/session.actions';
 import { Message } from '../../../pages/settings/models/message.model';
 import { selectAllMessages } from '../../../pages/settings/store/messages/messages.selectors';
@@ -73,8 +74,10 @@ export class Session {
   }
 
   ngOnInit() {
+    //this.store.dispatch(setStatusInProgres());
     this.store.dispatch(getAllMessagesRequest());
-    
+    //akcija da azuriram state na inprogress
+    // this.status = SessionStatus.IN_PROGRESS;
     this.timeLeft$.pipe(take(1)).subscribe((val) => {
       this.secondsLeft = val; //inicijalni config
       console.log(this.secondsLeft);

@@ -6,11 +6,13 @@ import { SessionStatus } from './models/session.status';
 import { CreateSessionDto } from './dtos/createsession.dto';
 import { SessionDto } from './dtos/session.dto';
 import { UpdateSessionDto } from './dtos/updateSession.dto';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class SessionsService {
   constructor(
     @InjectRepository(Session) private sessionsRepo: Repository<Session>,
+    @InjectRepository(User) private usersRepo: Repository<User>,
   ) {}
 
   async createSession(
@@ -113,5 +115,44 @@ export class SessionsService {
     session.timeLeft = session.roundTime;
 
     return this.sessionsRepo.save(session);
+  }
+
+  async dailyFocus(id: number): Promise<number> {
+    const userStats = await this.usersRepo.findOne({
+      where: { id: id },
+    });
+    if (!userStats) return -1;
+
+    const sessions: Session[] = await this.sessionsRepo.find({
+      where: { user: { id } },
+    });
+    //grupacija po danu
+    const grouped = sessions.reduce(
+      (acc, session) => {
+        const day = session.startTime.toISOString().split('T')[0]; // "2025-01-18"
+
+        const focusTime =
+          (session.currentRound - 1) * session.roundTime +
+          (session.roundTime - session.timeLeft);
+
+        //key je day
+        if (!acc[day]) {
+          acc[day] = [];
+        }
+        acc[day].push(focusTime);
+
+        return acc;
+      },
+      {} as Record<string, number[]>,
+    );
+
+    const averages = Object.values(grouped).map((times) => {
+      const sum = times.reduce((a, b) => a + b, 0); //za jedan dan suma
+      return sum / times.length; //prosecno za danS
+    });
+
+    const avgMinutes =
+      averages.reduce((a, b) => a + b, 0) / averages.length / 60;
+    return Math.round(avgMinutes * 100) / 100;
   }
 }

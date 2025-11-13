@@ -5,7 +5,7 @@ import { Focus } from './pages/focus/focus';
 import { StartScreen } from './layouts/start-screen/start-screen';
 import { AuthGuard } from './features/auth/guards/auth.guard';
 import { Settings } from './pages/settings/components/settings';
-import { Statistics } from './pages/statistics/statistics';
+import { Statistics } from './pages/statistics/component/statistics';
 import { LoginGuard } from './features/auth/guards/login.guard';
 
 export const routes: Routes = [

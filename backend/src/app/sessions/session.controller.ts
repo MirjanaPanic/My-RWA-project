@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   Param,
   Patch,
   Post,
@@ -74,5 +75,10 @@ export class SessionsController {
     @Body() updateSessionDto: UpdateSessionDto,
   ): Promise<Session> {
     return this.sessionsService.updateSession(id, updateSessionDto);
+  }
+
+  @Get('dailyAvgFocus')
+  dailyAverageFocus(@CurrentUser() id: number) {
+    return this.sessionsService.dailyFocus(id);
   }
 }

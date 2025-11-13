@@ -53,6 +53,8 @@ export const nextRoundRequest = createAction(
   props<{ status: SessionStatus }>()
 );
 
+export const setStatusInProgres = createAction('[Session] Setting in progress status.');
+
 export const updatedSessionSuccess = createAction(
   '[Session] Latest version of session record in database',
   props<{ session: Session }>()
