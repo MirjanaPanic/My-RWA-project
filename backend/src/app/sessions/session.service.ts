@@ -160,24 +160,4 @@ export class SessionsService {
       averages.reduce((a, b) => a + b, 0) / averages.length / 60;
     return Math.round(avgMinutes * 100) / 100;
   }
-
-  async getAllTagsOfUser(id: number): Promise<Tag[]> {
-    const sessions: Session[] = await this.sessionsRepo.find({
-      where: { user: { id } },
-      relations: ['tag'],
-    });
-
-    //uzmi im tagove, ne samo id, pribavi na osnovu id ceo tag
-    const allTags: Tag[] = sessions
-      .map((s) => s.tag)
-      .filter((t): t is Tag => !!t);
-
-    const distinctTagsMap = new Map<number, Tag>(); //key -tagid, value-tag
-    allTags.forEach((tag) => {
-      if (!distinctTagsMap.has(tag.id)) {
-        distinctTagsMap.set(tag.id, tag); //samo ako nije vec u mapi
-      }
-    });
-    return Array.from(distinctTagsMap.values());
-  }
 }

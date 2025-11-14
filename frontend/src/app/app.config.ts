@@ -24,7 +24,7 @@ import { sessionReducer } from './components/session/store/session.reducers';
 import { SessionEffects } from './components/session/store/session.effect';
 import { statisticsReducer } from './pages/statistics/store/statistics.reducer';
 import { StatisticsEffects } from './pages/statistics/store/statistics.effects';
-
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -33,8 +33,23 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([authInterceptor])),
     importProvidersFrom(FormsModule),
-    provideStore({ auth: authReducer, tags: tagsReducer, messages:messagesReducer, timer:timerReducer, session:sessionReducer, statistics:statisticsReducer }),
-    provideEffects([AuthEffects, TagsEffects, MessagesEffects, TimerEffects, SessionEffects, StatisticsEffects]), //DODATI KAD IZ KOMPONENTE DISPATCHUJEM!!!
+    provideStore({
+      auth: authReducer,
+      tags: tagsReducer,
+      messages: messagesReducer,
+      timer: timerReducer,
+      session: sessionReducer,
+      statistics: statisticsReducer,
+    }),
+    provideEffects([
+      AuthEffects,
+      TagsEffects,
+      MessagesEffects,
+      TimerEffects,
+      SessionEffects,
+      StatisticsEffects,
+    ]), //DODATI KAD IZ KOMPONENTE DISPATCHUJEM!!!
     provideStoreDevtools(),
+    provideCharts(withDefaultRegisterables()),
   ],
 };

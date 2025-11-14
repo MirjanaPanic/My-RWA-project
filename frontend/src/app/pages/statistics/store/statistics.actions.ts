@@ -9,8 +9,3 @@ export const dailyAvgFocusSuccess = createAction(
   props<{ dailyAvgFocus: number }>()
 );
 
-export const allTagsOfUserRequest = createAction('[Statistics] Request for all tags of user.');
-export const allTagsOfUserSuccess = createAction(
-  '[Statistics] All tags of user.',
-  props<{ tags: Tag[] }>()
-);

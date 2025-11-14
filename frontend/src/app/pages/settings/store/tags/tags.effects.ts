@@ -20,16 +20,6 @@ export class TagsEffects {
           map((response) => {
             return TagsActions.allTagsSuccess({ tags: response });
           }) //access token i user id, username
-          /*catchError((error) =>
-            of(
-              AuthActions.loginFailure({
-                error:
-                  error.status === 401
-                    ? 'Unauthorized user'
-                    : 'An error occurred. Please try again.',
-              })
-            )
-          )*/
         )
       )
     )
@@ -44,16 +34,6 @@ export class TagsEffects {
             //status 200 ako je uspesno
             return TagsActions.deleteTagSuccess({ id: id });
           }) //access token i user id, username
-          /*catchError((error) =>
-            of(
-              AuthActions.loginFailure({
-                error:
-                  error.status === 401
-                    ? 'Unauthorized user'
-                    : 'An error occurred. Please try again.',
-              })
-            )
-          )*/
         )
       )
     )

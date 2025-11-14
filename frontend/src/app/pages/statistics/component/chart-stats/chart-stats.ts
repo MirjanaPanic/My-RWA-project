@@ -1,12 +1,11 @@
-import { Component, Input } from '@angular/core';
-import { ChartOptions, ChartData, ChartType } from 'chart.js';
+import { Component } from '@angular/core';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
   standalone: true,
   selector: 'app-chart-stats',
-  imports: [],
+  imports: [BaseChartDirective],
   templateUrl: './chart-stats.html',
   styleUrl: './chart-stats.css',
 })
-export class ChartStats {
-}
+export class ChartStats {}

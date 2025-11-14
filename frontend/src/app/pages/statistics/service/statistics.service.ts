@@ -13,8 +13,4 @@ export class StatisticsService {
   getDailyAvgFocus(): Observable<number> {
     return this.http.get<number>(`${environment.api}/session/dailyAvgFocus`);
   }
-
-   getAllTags(): Observable<Tag[]> {
-    return this.http.get<Tag[]>(`${environment.api}/session/tags`);
-  }
 }

@@ -3,14 +3,16 @@ import { Navbar } from '../../../components/navbar/navbar';
 import { MatCardModule } from '@angular/material/card';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { selectAllTags, selectDailyAvgFocus } from '../store/statistics.selectors';
-import { allTagsOfUserRequest, dailyAvgFocusRequest } from '../store/statistics.actions';
+import { selectDailyAvgFocus } from '../store/statistics.selectors';
+import { dailyAvgFocusRequest } from '../store/statistics.actions';
 import { AsyncPipe } from '@angular/common';
 import { Tag } from '../../settings/models/tag.model';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ChartStats } from './chart-stats/chart-stats';
-import { ChartData } from 'chart.js';
+
+import { selectAllTags } from '../../settings/store/tags/tags.selectors';
+import { getAllTagsRequest } from '../../settings/store/tags/tags.actions';
 @Component({
   selector: 'app-statistics',
   imports: [
@@ -31,17 +33,6 @@ export class Statistics {
   allTags$: Observable<Tag[] | []>;
   selectedTags: Tag[] = [];
 
-  dummyData: ChartData<'bar'> = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    datasets: [
-      {
-        label: 'Minutes worked',
-        data: [50, 40, 70, 30, 60, 90, 20],
-        backgroundColor: 'rgba(54, 162, 235, 0.6)',
-      },
-    ],
-  };
-
   constructor(private store: Store) {
     this.dailyAvgFocus$ = this.store.select(selectDailyAvgFocus);
     this.allTags$ = this.store.select(selectAllTags);
@@ -60,6 +51,6 @@ export class Statistics {
 
   ngOnInit() {
     this.store.dispatch(dailyAvgFocusRequest());
-    this.store.dispatch(allTagsOfUserRequest());
+    this.store.dispatch(getAllTagsRequest());
   }
 }

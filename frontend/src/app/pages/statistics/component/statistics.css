@@ -25,11 +25,11 @@
   padding-top: 20px;
 }
 
-.tags-filter{
-    display: flex;
-    flex-direction: column;
+.tags-filter {
+  display: flex;
+  flex-direction: row;
 }
 
-.chart-container{
-    height:200px
+.chart-container {
+  height: 200px;
 }

@@ -81,10 +81,4 @@ export class SessionsController {
   dailyAverageFocus(@CurrentUser() id: number) {
     return this.sessionsService.dailyFocus(id);
   }
-
-  //all tags of user
-  @Get('tags')
-  allTagsOfUser(@CurrentUser() id: number) {
-    return this.sessionsService.getAllTagsOfUser(id);
-  }
 }

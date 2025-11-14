@@ -13,8 +13,5 @@ export const statisticsReducer = createReducer(
     ...state,
     dailyAvgFocus,
   })),
-  on(StatisticsActions.allTagsOfUserSuccess, (state, { tags }) => ({
-    ...state,
-    tags,
-  }))
+ 
 );
