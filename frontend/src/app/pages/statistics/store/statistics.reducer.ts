@@ -4,6 +4,7 @@ import * as StatisticsActions from './statistics.actions';
 
 export const initialState: StatisticsState = {
   dailyAvgFocus: null,
+  tags: [],
 };
 
 export const statisticsReducer = createReducer(
@@ -11,5 +12,9 @@ export const statisticsReducer = createReducer(
   on(StatisticsActions.dailyAvgFocusSuccess, (state, { dailyAvgFocus }) => ({
     ...state,
     dailyAvgFocus,
+  })),
+  on(StatisticsActions.allTagsOfUserSuccess, (state, { tags }) => ({
+    ...state,
+    tags,
   }))
 );

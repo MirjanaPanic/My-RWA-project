@@ -50,23 +50,23 @@
         <mat-icon matPrefix class="my-icon">search</mat-icon>
         <input
           matInput
-          [(ngModel)]="inputTag"
+          [(ngModel)]="selectedTag"
           (ngModelChange)="onInputTagChange($event)"
-          type="text"
           placeholder="Search tag..."
           [matAutocomplete]="auto"
         />
         <mat-autocomplete
           #auto="matAutocomplete"
+          [displayWith]="displayTag"
           (optionSelected)="setSelectedTag($event.option.value)"
         >
-          @for (tag of matchedTag$ | async; track tag) {
-          <mat-option [value]="tag.name">{{ tag.name }}</mat-option>
-          }
+          <mat-option *ngFor="let tag of matchedTag$ | async" [value]="tag">
+            {{ tag.name }}
+          </mat-option>
         </mat-autocomplete>
       </mat-form-field>
 
-      <mat-label> Selected tag: {{ selectedTag ? selectedTag : 'none' }} </mat-label>
+      <mat-label> Selected tag: {{ selectedTag ? selectedTag.name : 'none' }} </mat-label>
       <div class="btn-container">
         <button matButton="filled" class="btn-start" (click)="startSession()">START</button>
       </div>

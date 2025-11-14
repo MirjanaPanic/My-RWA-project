@@ -1,4 +1,35 @@
-.statistics-container{
+.statistics-page {
+  display: flex;
+  justify-content: center;
+  height: calc(100vh - 60px);
+  background-color: wheat;
+}
+
+.statistics-card {
+  margin-top: 50px;
+  width: 1000px;
+  height: fit-content;
+}
+
+.statistics-container {
+  display: flex;
+  flex-direction: column;
+  padding-top: 20px;
+}
+
+.stats-report {
+  border-bottom: 2px solid black;
+}
+
+.stats-filters {
+  padding-top: 20px;
+}
+
+.tags-filter{
     display: flex;
-   
+    flex-direction: column;
+}
+
+.chart-container{
+    height:200px
 }

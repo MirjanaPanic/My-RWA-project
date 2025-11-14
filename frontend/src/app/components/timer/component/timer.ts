@@ -62,6 +62,10 @@ export class Timer {
 
   setSelectedTag(tag: Tag) {
     this.selectedTag = tag;
+    console.log('selektovai tag ', this.selectedTag);
+  }
+  displayTag(tag: Tag): string {
+    return tag ? tag.name : '';
   }
 
   startSession() {
@@ -73,7 +77,9 @@ export class Timer {
         tagId: this.selectedTag?.id,
       })
     );
-    console.log(this.focusTime, this.breakTime, this.loops, this.selectedTag);
+    console.log('config podaci', this.focusTime, this.breakTime, this.loops, this.selectedTag?.id);
+    console.log('provera');
+    console.log(this.selectedTag?.id);
   }
 
   ngOnInit() {

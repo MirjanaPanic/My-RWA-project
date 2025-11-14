@@ -4,9 +4,10 @@ import { SessionsController } from './session.controller';
 import { SessionsService } from './session.service';
 import { Session } from './entities/session.entity';
 import { User } from '../users/entities/user.entity';
+import { Tag } from '../tags/entities/tag.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Session, User])],
+  imports: [TypeOrmModule.forFeature([Session, User, Tag])],
   controllers: [SessionsController],
   providers: [SessionsService], //UNUTAR MODULA - registruje servise koje taj modul koristi
   exports: [SessionsService],

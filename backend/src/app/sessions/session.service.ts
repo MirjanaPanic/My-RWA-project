@@ -1,41 +1,46 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeepPartial, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Session } from './entities/session.entity';
 import { SessionStatus } from './models/session.status';
 import { CreateSessionDto } from './dtos/createsession.dto';
 import { SessionDto } from './dtos/session.dto';
 import { UpdateSessionDto } from './dtos/updateSession.dto';
 import { User } from '../users/entities/user.entity';
+import { Tag } from '../tags/entities/tag.entity';
 
 @Injectable()
 export class SessionsService {
   constructor(
     @InjectRepository(Session) private sessionsRepo: Repository<Session>,
     @InjectRepository(User) private usersRepo: Repository<User>,
+    @InjectRepository(Tag) private tagsRepo: Repository<Tag>,
   ) {}
 
   async createSession(
     createSessionDto: CreateSessionDto,
     userId: number,
   ): Promise<SessionDto> {
-    const newSessionData: DeepPartial<Session> = {
-      //deo entiteta
-      user: { id: userId },
-      roundTime: createSessionDto.focusTime * 60,
-      repetitions: createSessionDto.loops,
-      breakTime: createSessionDto.breakTime * 60, //u sekundama
-      sessionStatus: SessionStatus.IN_PROGRESS,
-      currentRound: 1,
-      timeLeft: createSessionDto.focusTime * 60, //u sekundama
-      startTime: new Date(),
-    };
-
-    if (createSessionDto.tagId !== undefined) {
-      newSessionData.tag = { id: createSessionDto.tagId };
+    let tag: Tag | undefined = undefined;
+    if (createSessionDto.tagId) {
+      const t = await this.tagsRepo.findOne({
+        where: { id: createSessionDto.tagId },
+      });
+      tag = t ?? undefined;
     }
 
-    const newSession = this.sessionsRepo.create(newSessionData);
+    const newSession = this.sessionsRepo.create({
+      user: { id: userId },
+      tag,
+      roundTime: createSessionDto.focusTime * 60,
+      repetitions: createSessionDto.loops,
+      breakTime: createSessionDto.breakTime * 60,
+      sessionStatus: SessionStatus.IN_PROGRESS,
+      currentRound: 1,
+      timeLeft: createSessionDto.focusTime * 60,
+      startTime: new Date(),
+    });
+
     const savedSession = await this.sessionsRepo.save(newSession);
 
     return {
@@ -134,7 +139,7 @@ export class SessionsService {
         const focusTime =
           (session.currentRound - 1) * session.roundTime +
           (session.roundTime - session.timeLeft);
-
+        //DODATI PROVERU DA SAMO UZIMA DONE AND EARLY DONE SESSIONS
         //key je day
         if (!acc[day]) {
           acc[day] = [];
@@ -154,5 +159,25 @@ export class SessionsService {
     const avgMinutes =
       averages.reduce((a, b) => a + b, 0) / averages.length / 60;
     return Math.round(avgMinutes * 100) / 100;
+  }
+
+  async getAllTagsOfUser(id: number): Promise<Tag[]> {
+    const sessions: Session[] = await this.sessionsRepo.find({
+      where: { user: { id } },
+      relations: ['tag'],
+    });
+
+    //uzmi im tagove, ne samo id, pribavi na osnovu id ceo tag
+    const allTags: Tag[] = sessions
+      .map((s) => s.tag)
+      .filter((t): t is Tag => !!t);
+
+    const distinctTagsMap = new Map<number, Tag>(); //key -tagid, value-tag
+    allTags.forEach((tag) => {
+      if (!distinctTagsMap.has(tag.id)) {
+        distinctTagsMap.set(tag.id, tag); //samo ako nije vec u mapi
+      }
+    });
+    return Array.from(distinctTagsMap.values());
   }
 }

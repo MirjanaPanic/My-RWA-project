@@ -19,7 +19,19 @@ export class StatisticsEffects {
           map((response) => {
             return StatisticsActions.dailyAvgFocusSuccess({ dailyAvgFocus: response });
           })
-         
+        )
+      )
+    )
+  );
+
+  getAllTags$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(StatisticsActions.allTagsOfUserRequest),
+      switchMap(() =>
+        this.statisticsService.getAllTags().pipe(
+          map((response) => {
+            return StatisticsActions.allTagsOfUserSuccess({ tags: response });
+          })
         )
       )
     )

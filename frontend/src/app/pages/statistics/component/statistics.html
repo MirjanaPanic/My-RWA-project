@@ -1,16 +1,28 @@
 <app-navbar></app-navbar>
+<div class="statistics-page">
+  <mat-card class="statistics-card">
+    <mat-card-header>
+      <mat-card-title>Statistics</mat-card-title>
+    </mat-card-header>
 
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>Statistics</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <div class="statistics-container">
-      <div>
-        @if (dailyAvgFocus$ | async; as dailyAvg) { Average daily focus time: {{ dailyAvg }} min}
+    <mat-card-content>
+      <div class="statistics-container">
+        <div class="stats-report">
+          @if (dailyAvgFocus$ | async; as dailyAvg) { Average daily focus time: {{ dailyAvg }} min}
+        </div>
+        <div class="chart-container">
+          <app-chart-stats></app-chart-stats>
+        </div>
+        <div class="stats-filters">
+          <h3>Filters</h3>
+          <div class="tags-filter">
+            @for (tag of allTags$|async; track tag.id) {
+            <mat-checkbox (change)="checkedTag(tag, $event.checked)"> {{ tag.name }}</mat-checkbox>
+            }
+          </div>
+        </div>
       </div>
-    </div>
-  </mat-card-content>
-</mat-card>
-
-<p>{{ token }}</p>
+    </mat-card-content>
+    <p>{{ token }}</p>
+  </mat-card>
+</div>
