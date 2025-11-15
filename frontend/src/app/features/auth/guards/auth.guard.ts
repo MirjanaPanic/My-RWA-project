@@ -12,7 +12,7 @@ export class AuthGuard implements CanActivate {
     const isLoggedIn = this.authService.isAuthenticated();
 
     if (isLoggedIn) {
-      return true; //ako im vazi token, mogu na focus/settings/statistics
+      return true;
     } else {
       this.router.navigate(['/login']);
       return false;

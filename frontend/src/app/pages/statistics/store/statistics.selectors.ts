@@ -8,4 +8,11 @@ export const selectDailyAvgFocus = createSelector(
   (state: StatisticsState) => state.dailyAvgFocus
 );
 
-
+export const selectSelectedTags = createSelector(
+  selectStatisticsState,
+  (state: StatisticsState) => state.selectedTags
+);
+export const selectWeekStart = createSelector(
+  selectStatisticsState,
+  (state: StatisticsState) => state.weekStart
+);

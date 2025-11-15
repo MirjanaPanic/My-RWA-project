@@ -9,3 +9,12 @@ export const dailyAvgFocusSuccess = createAction(
   props<{ dailyAvgFocus: number }>()
 );
 
+export const updateSelectedTagsRequest = createAction(
+  '[Statistics] Update selected tags',
+  props<{ selectedTags: Tag[] }>()
+);
+
+export const updateWeekStartRequest = createAction(
+  '[Statistics] Update week start',
+  props<{ weekStart: string }>()
+);

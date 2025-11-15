@@ -26,12 +26,36 @@ export class AuthService {
     return localStorage.getItem('access_token');
   }
 
-  
   isAuthenticated(): boolean {
-    const token = localStorage.getItem('access_token'); //string or null
-    // dupla negacija:
-    // !string je false !!string je true ->postoji token
-    // !null je true !!null je false ->ne postoji token
-    return !!token; //ako postoji token, vraca true
+    const token = localStorage.getItem('access_token');
+    if (!token) return false;
+
+    if (this.isTokenExpired()) {
+      this.logout();
+      return false;
+    }
+
+    return true;
+  }
+
+  logout(): void {
+    localStorage.removeItem('access_token');
+  }
+
+  isTokenExpired(): boolean {
+    const token = localStorage.getItem('access_token');
+    if (!token) return true;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+
+      if (!payload.exp) return true;
+
+      const currentTime = Math.floor(Date.now() / 1000);
+
+      return payload.exp < currentTime;
+    } catch (e) {
+      return true;
+    }
   }
 }
