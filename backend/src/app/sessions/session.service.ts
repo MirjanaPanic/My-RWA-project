@@ -8,6 +8,11 @@ import { SessionDto } from './dtos/session.dto';
 import { UpdateSessionDto } from './dtos/updateSession.dto';
 import { User } from '../users/entities/user.entity';
 import { Tag } from '../tags/entities/tag.entity';
+import {
+  calculateFocusTime,
+  dateToString,
+  getWeekDays,
+} from './helpers/statistics-helper';
 
 @Injectable()
 export class SessionsService {
@@ -136,9 +141,11 @@ export class SessionsService {
       (acc, session) => {
         const day = session.startTime.toISOString().split('T')[0]; // "2025-01-18"
 
-        const focusTime =
-          (session.currentRound - 1) * session.roundTime +
-          (session.roundTime - session.timeLeft);
+        const focusTime = calculateFocusTime(
+          session.currentRound,
+          session.roundTime,
+          session.timeLeft,
+        );
         //DODATI PROVERU DA SAMO UZIMA DONE AND EARLY DONE SESSIONS
         //key je day
         if (!acc[day]) {
@@ -159,5 +166,50 @@ export class SessionsService {
     const avgMinutes =
       averages.reduce((a, b) => a + b, 0) / averages.length / 60;
     return Math.round(avgMinutes * 100) / 100;
+  }
+
+  async weeklyStatistics(id: number, weekStart: string, tagIds: number[]) {
+    console.log(tagIds);
+    const days: Date[] = getWeekDays(weekStart);
+    console.log(days);
+    const sessions: Session[] = await this.sessionsRepo.find({
+      where: { user: { id } },
+      relations: ['tag', 'user'],
+    });
+
+    const filtered = sessions.filter((session) => {
+      if (
+        session.sessionStatus !== SessionStatus.DONE &&
+        session.sessionStatus !== SessionStatus.EARLY_DONE
+      ) {
+        return false;
+      }
+      const sessionDate = session.startTime;
+      const inWeek = days.find(
+        (day) => dateToString(day) === dateToString(sessionDate),
+      );
+      const hasTag =
+        tagIds.length === 0 || (session.tag && tagIds.includes(session.tag.id));
+      return inWeek && hasTag;
+    });
+
+    const grouped: Record<string, number> = {};
+
+    days.forEach((d) => {
+      const key = dateToString(d);
+      grouped[key] = 0;
+    });
+
+    filtered.forEach((session) => {
+      const dateKey = dateToString(session.startTime);
+      const focusTime = calculateFocusTime(
+        session.currentRound,
+        session.roundTime,
+        session.timeLeft,
+      );
+      grouped[dateKey] += focusTime;
+    });
+
+    return grouped;
   }
 }
