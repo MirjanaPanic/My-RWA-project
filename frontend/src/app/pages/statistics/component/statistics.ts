@@ -10,9 +10,10 @@ import { Tag } from '../../settings/models/tag.model';
 import { MatPseudoCheckboxModule } from '@angular/material/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ChartStats } from './chart-stats/chart-stats';
-
 import { selectAllTags } from '../../settings/store/tags/tags.selectors';
 import { getAllTagsRequest } from '../../settings/store/tags/tags.actions';
+import { toISODate } from '../helpers/statistics-helper';
+import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-statistics',
   imports: [
@@ -22,6 +23,7 @@ import { getAllTagsRequest } from '../../settings/store/tags/tags.actions';
     AsyncPipe,
     MatPseudoCheckboxModule,
     MatCheckboxModule,
+    MatButtonModule
   ],
   templateUrl: './statistics.html',
   styleUrl: './statistics.css',
@@ -32,6 +34,7 @@ export class Statistics {
   dailyAvgFocus$: Observable<number | null>;
   allTags$: Observable<Tag[] | []>;
   selectedTags: Tag[] = [];
+  weekStart: string = 'This week'; //inicijalno danasnji dan - 7 dana
 
   constructor(private store: Store) {
     this.dailyAvgFocus$ = this.store.select(selectDailyAvgFocus);
@@ -52,5 +55,24 @@ export class Statistics {
   ngOnInit() {
     this.store.dispatch(dailyAvgFocusRequest());
     this.store.dispatch(getAllTagsRequest());
+    this.findWeekStart();
+  }
+
+  previousWeek() {
+    console.log('previous');
+  }
+
+  nextWeek() {
+    console.log('next');
+  }
+
+  findWeekStart() {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const weekStart = new Date(today);
+    weekStart.setDate(today.getDate() - 7);
+
+    this.weekStart = toISODate(weekStart);
   }
 }

@@ -209,7 +209,6 @@ export class SessionsService {
       );
       grouped[dateKey] += focusTime;
     });
-
     return grouped;
   }
 }
