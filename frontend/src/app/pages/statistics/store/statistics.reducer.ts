@@ -4,9 +4,9 @@ import * as StatisticsActions from './statistics.actions';
 
 export const initialState: StatisticsState = {
   dailyAvgFocus: null,
- 
   weekStart: '',
   selectedTags: [],
+  chartData: [],
 };
 
 export const statisticsReducer = createReducer(
@@ -22,5 +22,9 @@ export const statisticsReducer = createReducer(
   on(StatisticsActions.updateWeekStartRequest, (state, { weekStart }) => ({
     ...state,
     weekStart,
+  })),
+  on(StatisticsActions.chartDataSuccess, (state, { data }) => ({
+    ...state,
+    chartData: data,
   }))
 );

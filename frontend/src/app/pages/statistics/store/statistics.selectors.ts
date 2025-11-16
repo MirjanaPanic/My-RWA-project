@@ -16,3 +16,8 @@ export const selectWeekStart = createSelector(
   selectStatisticsState,
   (state: StatisticsState) => state.weekStart
 );
+
+export const selectChartData = createSelector(
+  selectStatisticsState,
+  (state: StatisticsState) => state.chartData
+);

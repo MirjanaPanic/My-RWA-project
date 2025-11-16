@@ -2,13 +2,15 @@ import { Component } from '@angular/core';
 import { Navbar } from '../../../components/navbar/navbar';
 import { MatCardModule } from '@angular/material/card';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
+  selectChartData,
   selectDailyAvgFocus,
   selectSelectedTags,
   selectWeekStart,
 } from '../store/statistics.selectors';
 import {
+  chartDataRequest,
   dailyAvgFocusRequest,
   updateSelectedTagsRequest,
   updateWeekStartRequest,
@@ -27,6 +29,8 @@ import {
   dateToString,
 } from '../helpers/statistics-helper';
 import { MatButtonModule } from '@angular/material/button';
+import { ChartStatsData } from '../models/chart-data.model';
+
 @Component({
   selector: 'app-statistics',
   imports: [
@@ -50,12 +54,19 @@ export class Statistics {
   weekStart: string = 'This week'; //inicijalno danasnji dan - 7 dana
   selectedTag$: Observable<Tag[]>;
   weekStart$: Observable<string | ''>;
+  chartData$: Observable<ChartStatsData[]>;
 
   constructor(private store: Store) {
     this.dailyAvgFocus$ = this.store.select(selectDailyAvgFocus);
     this.allTags$ = this.store.select(selectAllTags);
     this.selectedTag$ = this.store.select(selectSelectedTags);
     this.weekStart$ = this.store.select(selectWeekStart);
+
+    //kombinovati ova 2 obs, i kad god neki promeni vrednost dispecuj akciju
+    //hvata je efekat zove metodu servera, ona vrati to sto treba za grafik, to
+    //treba da bude u store ti podaci za grafik
+    //i kad reducer ih azurira grafik se samo updatuje
+    this.chartData$ = this.store.select(selectChartData);
   }
 
   checkedTag(tag: Tag, checked: boolean) {
@@ -76,6 +87,12 @@ export class Statistics {
     this.store.dispatch(getAllTagsRequest());
     this.findWeekStart();
     this.store.dispatch(updateWeekStartRequest({ weekStart: this.weekStart }));
+
+    combineLatest([this.weekStart$, this.selectedTag$]).subscribe(([weekStart, selectedTags]) => {
+      const tagsIds = selectedTags.map((tag) => tag.id.toString()).join(',');
+      const weekStartISO: string = weekStart + 'T00:00:00.000Z';
+      this.store.dispatch(chartDataRequest({ weekStart: weekStartISO, selectedTagIds: tagsIds }));
+    });
   }
 
   previousWeek() {

@@ -18,7 +18,7 @@
               <button matButton="outlined" class="week-btn" (click)="nextWeek()">></button>
             </div>
             <div class="chart-container">
-              <app-chart-stats></app-chart-stats>
+              <app-chart-stats [data]="(chartData$ | async) ?? []"></app-chart-stats>
             </div>
           </div>
           <div class="stats-filters">
@@ -34,6 +34,5 @@
         </div>
       </div>
     </mat-card-content>
-    <p>{{ token }}</p>
   </mat-card>
 </div>

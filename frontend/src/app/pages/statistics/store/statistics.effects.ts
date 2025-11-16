@@ -23,4 +23,17 @@ export class StatisticsEffects {
       )
     )
   );
+
+  chartData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(StatisticsActions.chartDataRequest),
+      switchMap(({ weekStart, selectedTagIds }) =>
+        this.statisticsService.getChartData(weekStart, selectedTagIds).pipe(
+          map((response) => {
+            return StatisticsActions.chartDataSuccess({ data: response });
+          })
+        )
+      )
+    )
+  );
 }

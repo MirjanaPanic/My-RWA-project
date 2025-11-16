@@ -18,16 +18,6 @@ export class MessagesEffects {
           map((response) => {
             return MessagesActions.allMessagesSuccess({ messages: response });
           })
-          /*catchError((error) =>
-            of(
-              AuthActions.loginFailure({
-                error:
-                  error.status === 401
-                    ? 'Unauthorized user'
-                    : 'An error occurred. Please try again.',
-              })
-            )
-          )*/
         )
       )
     )
@@ -41,16 +31,6 @@ export class MessagesEffects {
           map(() => {
             return MessagesActions.updateMessageSuccess({ id, text });
           })
-          /*catchError((error) =>
-            of(
-              AuthActions.loginFailure({
-                error:
-                  error.status === 401
-                    ? 'Unauthorized user'
-                    : 'An error occurred. Please try again.',
-              })
-            )
-          )*/
         )
       )
     )
@@ -64,16 +44,6 @@ export class MessagesEffects {
           map(() => {
             return MessagesActions.deleteMessageSuccess({ id });
           })
-          /*catchError((error) =>
-            of(
-              AuthActions.loginFailure({
-                error:
-                  error.status === 401
-                    ? 'Unauthorized user'
-                    : 'An error occurred. Please try again.',
-              })
-            )
-          )*/
         )
       )
     )

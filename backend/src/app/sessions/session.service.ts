@@ -209,6 +209,12 @@ export class SessionsService {
       );
       grouped[dateKey] += focusTime;
     });
-    return grouped;
+    return days.map((day) => {
+      const date = dateToString(day);
+      return {
+        date,
+        minutes: Number(((grouped[date] ?? 0) / 60).toFixed(2)),
+      };
+    });
   }
 }
