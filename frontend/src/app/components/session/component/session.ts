@@ -26,6 +26,7 @@ import {
 import { Message } from '../../../pages/settings/models/message.model';
 import { selectAllMessages } from '../../../pages/settings/store/messages/messages.selectors';
 import { getAllMessagesRequest } from '../../../pages/settings/store/messages/messages.actions';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-session',
@@ -61,7 +62,7 @@ export class Session {
   secondsLeftSubject = new BehaviorSubject<number>(-1); //inicijalna vrednost
   secondsLeft$ = this.secondsLeftSubject.asObservable();
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private router: Router) {
     this.sessionConfig$ = this.store.select(selectSessionConfiguration);
     this.currentRound$ = this.store.select(selectCurrentRound);
     this.nextRound$ = this.store.select(selectNextRound);
@@ -123,6 +124,7 @@ export class Session {
     this.displayTime = 'THE END';
     this.status = SessionStatus.DONE;
     this.store.dispatch(doneSessionRequest({ timeLeft: this.secondsLeft, status: this.status }));
+    this.router.navigate(['/garden']);
   }
 
   breakOrEnd() {
@@ -246,6 +248,7 @@ export class Session {
     this.store.dispatch(
       earlyDoneSessionRequest({ timeLeft: this.secondsLeft, status: this.status })
     );
+    this.router.navigate(['/garden']);
   }
 
   stopTimer() {

@@ -217,4 +217,16 @@ export class SessionsService {
       };
     });
   }
+
+  async doneSessions(id: number): Promise<number> {
+    const sessions: Session[] = await this.sessionsRepo.find({
+      where: { user: { id } },
+    });
+
+    return sessions.filter(
+      (s) =>
+        s.sessionStatus === SessionStatus.DONE ||
+        s.sessionStatus === SessionStatus.EARLY_DONE,
+    ).length;
+  }
 }

@@ -13,7 +13,7 @@ export class Flower {
   @Column({ type: 'float' })
   y: number;
 
-  @ManyToOne(() => User, (user) => user.messages, {
+  @ManyToOne(() => User, (user) => user.flowers, {
     onDelete: 'CASCADE',
   })
   user: User;

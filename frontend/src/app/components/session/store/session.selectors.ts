@@ -47,3 +47,9 @@ export const selectNextRound = createSelector(selectSessionState, (state) => ({
 }));
 
 export const selectSessionId = createSelector(selectSessionState, (session) => session.id);
+
+export const selectCanPlant = createSelector(
+  selectSessionState,
+  (state) =>
+    state.sessionStatus === SessionStatus.DONE || state.sessionStatus === SessionStatus.EARLY_DONE
+);

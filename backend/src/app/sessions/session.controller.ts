@@ -100,4 +100,9 @@ export class SessionsController {
 
     return this.sessionsService.weeklyStatistics(id, weekStart, tags);
   }
+
+  @Get('completedSessions')
+  doneSessions(@CurrentUser() id: number): Promise<number> {
+    return this.sessionsService.doneSessions(id);
+  }
 }

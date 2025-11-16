@@ -1,0 +1,32 @@
+.garden {
+  background-image: url('../../../assets/garden.jfif');
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: calc(100vh - 60px);
+  position: relative;
+  overflow: hidden;
+}
+
+.plant-button {
+  border-radius: 50%;
+  height: 100px;
+  width: 100px;
+
+  z-index: 999;
+}
+
+.flower {
+  position: absolute;
+  background-image: url('../../../assets/daisy.png');
+  height: 50px;
+  width: 50px;
+  transition: transform 0.2s;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transform: translate(-50%, -50%);
+  cursor: url('../../../assets/daisy.png') 25 25, auto;
+}

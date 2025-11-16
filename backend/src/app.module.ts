@@ -9,6 +9,7 @@ import { JwtGuard } from './core/auth/guards/jwt.guard';
 import { TagsModule } from './app/tags/tags.module';
 import { MessagesModule } from './app/messages/messages.module';
 import { SessionsModule } from './app/sessions/session.module';
+import { FlowersModule } from './app/flowers/flowers.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { SessionsModule } from './app/sessions/session.module';
     TagsModule,
     MessagesModule,
     SessionsModule,
+    FlowersModule,
   ],
   controllers: [],
   providers: [

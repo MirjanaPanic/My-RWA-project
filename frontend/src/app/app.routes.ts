@@ -7,6 +7,7 @@ import { AuthGuard } from './features/auth/guards/auth.guard';
 import { Settings } from './pages/settings/components/settings';
 import { Statistics } from './pages/statistics/component/statistics';
 import { LoginGuard } from './features/auth/guards/login.guard';
+import { Garden } from './pages/garden/garden';
 
 export const routes: Routes = [
   {
@@ -21,4 +22,5 @@ export const routes: Routes = [
   { path: 'focus', component: Focus, canActivate: [AuthGuard] }, //dodaj Guard-a :) //focus page
   { path: 'settings', component: Settings, canActivate: [AuthGuard] },
   { path: 'statistics', component: Statistics, canActivate: [AuthGuard] },
+  { path: 'garden', component: Garden, canActivate: [AuthGuard] },
 ];

@@ -25,6 +25,8 @@ import { SessionEffects } from './components/session/store/session.effect';
 import { statisticsReducer } from './pages/statistics/store/statistics.reducer';
 import { StatisticsEffects } from './pages/statistics/store/statistics.effects';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { gardenReducer } from './pages/garden/store/garden.reducer';
+import { GardenEffects } from './pages/garden/store/garden.effects';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -40,6 +42,7 @@ export const appConfig: ApplicationConfig = {
       timer: timerReducer,
       session: sessionReducer,
       statistics: statisticsReducer,
+      garden:gardenReducer
     }),
     provideEffects([
       AuthEffects,
@@ -48,6 +51,7 @@ export const appConfig: ApplicationConfig = {
       TimerEffects,
       SessionEffects,
       StatisticsEffects,
+      GardenEffects
     ]), //DODATI KAD IZ KOMPONENTE DISPATCHUJEM!!!
     provideStoreDevtools(),
     provideCharts(withDefaultRegisterables()),
