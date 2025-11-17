@@ -42,8 +42,8 @@ export class GardenEffects {
   newFlower$ = createEffect(() =>
     this.actions$.pipe(
       ofType(GardenActions.newFlowerRequest),
-      switchMap(({ x, y }) =>
-        this.gardenService.addNewFlower(x, y).pipe(
+      switchMap(({flowerCoords}) =>
+        this.gardenService.addNewFlower(flowerCoords.x,flowerCoords.y).pipe(
           map((response) => {
             return GardenActions.newFlowerSuccess({ flower: response });
           })

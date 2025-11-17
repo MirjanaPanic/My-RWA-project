@@ -1,9 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { Navbar } from '../../components/navbar/navbar';
 import { Store } from '@ngrx/store';
 
 import { AsyncPipe } from '@angular/common';
-import { combineLatest, map, Observable } from 'rxjs';
+import { combineLatest, filter, map, Observable, throttleTime, withLatestFrom } from 'rxjs';
 import { Flower } from './models/flower.model';
 import {
   allFlowersRequest,
@@ -16,7 +16,8 @@ import {
   selectFlowersLength,
 } from './store/garden.selectors';
 import { MatAnchor } from '@angular/material/button';
-import { FlowerOnScreen } from './models/plant.model';
+import { FlowerCoordinates } from './models/plant.model';
+import { fromEvent } from 'rxjs';
 
 @Component({
   selector: 'app-garden',
@@ -32,6 +33,10 @@ export class Garden {
   isPlantingMode: boolean = false;
   isLastFlower: boolean = false;
   shouldShowButton: boolean = false;
+  mouseMove$!: Observable<FlowerCoordinates>;
+  mouseClick$!: Observable<MouseEvent>;
+  clickWithCoords$!: Observable<FlowerCoordinates>;
+  @ViewChild('gardenDiv', { static: false }) gardenElement!: ElementRef;
 
   constructor(private store: Store) {
     this.allFlower$ = this.store.select(selectAllFlowers);
@@ -58,22 +63,53 @@ export class Garden {
     this.isPlantingMode = true;
   }
 
-  plantFlower(event: MouseEvent) {
+  plantFlower(flowerCoords: FlowerCoordinates) {
     if (!this.isPlantingMode) return;
 
-    this.store.dispatch(
-      newFlowerRequest({
-        x: event.offsetX,
-        y: event.offsetY,
-      })
-    );
+    this.store.dispatch(newFlowerRequest({ flowerCoords: flowerCoords }));
 
     this.shouldShowButton = false;
     this.isPlantingMode = false;
   }
 
+  ngAfterViewInit() {
+    this.mouseMove$ = fromEvent<MouseEvent>(this.gardenElement.nativeElement, 'mousemove').pipe(
+      filter((e) => this.isPlantingMode),
+      throttleTime(200),
+      map((e) => this.getRelativeCoordinates(e))
+    );
+
+    this.mouseMove$.subscribe((e) => {
+      console.log(e); //MouseCoordinates
+    });
+
+    this.mouseClick$ = fromEvent<MouseEvent>(this.gardenElement.nativeElement, 'click').pipe(
+      filter((e) => this.isPlantingMode)
+    );
+
+    this.mouseClick$.subscribe((e) => {
+      console.log(e); //MouseCoordinates
+    });
+
+    //NA svaki mouseClick se on kombinuje sa poslednjom vrednoscu iz MouseMove toka
+    this.clickWithCoords$ = this.mouseClick$.pipe(
+      withLatestFrom(this.mouseMove$),
+      map(([click, coords]) => coords)
+    );
+
+    this.clickWithCoords$.subscribe((coords) => this.plantFlower(coords));
+  }
+
   ngOnInit() {
     this.store.dispatch(allFlowersRequest());
     this.store.dispatch(completedSessionsRequest());
+  }
+
+  getRelativeCoordinates(event: MouseEvent): FlowerCoordinates {
+    const rect = this.gardenElement.nativeElement.getBoundingClientRect();
+    return {
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    };
   }
 }

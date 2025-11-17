@@ -7,6 +7,7 @@
   align-items: center;
   height: calc(100vh - 60px);
   position: relative;
+  width: 100%;
   overflow: hidden;
 }
 
@@ -29,4 +30,5 @@
   background-position: center;
   transform: translate(-50%, -50%);
   cursor: url('../../../assets/daisy.png') 25 25, auto;
+  pointer-events: none;
 }

@@ -1,4 +1,4 @@
-export interface FlowerOnScreen {
+export interface FlowerCoordinates {
   x: number;
   y: number;
 }

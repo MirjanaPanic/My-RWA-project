@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="garden" (click)="plantFlower($event)">
+<div class="garden" #gardenDiv>
   @if((canPlant$ | async) && shouldShowButton && !isPlantingMode){
   <button matButton="filled" class="plant-button" (click)="enablePlanting($event)">Plant</button>
   } @for (flower of allFlower$|async; track flower.id) {

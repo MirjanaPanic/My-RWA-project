@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 import { Flower } from '../models/flower.model';
-import { FlowerOnScreen } from '../models/plant.model';
+import { FlowerCoordinates } from '../models/plant.model';
 
 export const completedSessionsRequest = createAction('[MyGarden] Get number of completed sessions');
 export const completedSessionsSuccess = createAction(
@@ -16,7 +16,7 @@ export const allFlowersSuccess = createAction(
 
 export const newFlowerRequest = createAction(
   '[MyGarden] Plant a new flower',
-  props<{ x: number; y: number }>()
+  props<{flowerCoords:FlowerCoordinates  }>()
 );
 
 export const newFlowerSuccess = createAction(
