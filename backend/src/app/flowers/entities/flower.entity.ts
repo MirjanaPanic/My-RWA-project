@@ -1,10 +1,9 @@
 import { User } from 'src/app/users/entities/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-//mapira se na tabelu u bazi
 @Entity('flowers')
 export class Flower {
-  @PrimaryGeneratedColumn() //auto-increment
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'float' })

@@ -46,13 +46,11 @@ import { ChartStatsData } from '../models/chart-data.model';
   styleUrl: './statistics.css',
 })
 export class Statistics {
-  token: string | null = localStorage.getItem('access_token');
-
   dailyAvgFocus$: Observable<number | null>;
   allTags$: Observable<Tag[] | []>;
   selectedTags: Tag[] = [];
-  weekStart: string = 'This week'; //inicijalno danasnji dan - 7 dana
   selectedTag$: Observable<Tag[]>;
+  weekStart: string = 'This week'; //inicijalno danasnji dan - 7 dana
   weekStart$: Observable<string | ''>;
   chartData$: Observable<ChartStatsData[]>;
 
@@ -61,11 +59,6 @@ export class Statistics {
     this.allTags$ = this.store.select(selectAllTags);
     this.selectedTag$ = this.store.select(selectSelectedTags);
     this.weekStart$ = this.store.select(selectWeekStart);
-
-    //kombinovati ova 2 obs, i kad god neki promeni vrednost dispecuj akciju
-    //hvata je efekat zove metodu servera, ona vrati to sto treba za grafik, to
-    //treba da bude u store ti podaci za grafik
-    //i kad reducer ih azurira grafik se samo updatuje
     this.chartData$ = this.store.select(selectChartData);
   }
 

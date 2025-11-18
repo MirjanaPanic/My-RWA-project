@@ -4,8 +4,6 @@ import { SessionStatus } from '../models/session.status';
 
 export const selectSessionState = createFeatureSelector<SessionState>('session');
 
-//verovatno je bolje sessionId
-//ako je startovana sesija, da se mountuje tajmer
 export const selectHasSession = createSelector(
   selectSessionState,
   (session) =>

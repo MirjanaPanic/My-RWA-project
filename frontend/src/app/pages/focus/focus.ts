@@ -18,12 +18,8 @@ import { AsyncPipe, CommonModule } from '@angular/common';
 })
 export class Focus {
   hasSession$: Observable<boolean>;
-  //breaktime$: Observable<boolean>;
 
   constructor(private store: Store) {
     this.hasSession$ = this.store.select(selectHasSession);
-    //this.breaktime$ = this.store.select(selectBreaktimeStatus);
   }
-
-  
 }

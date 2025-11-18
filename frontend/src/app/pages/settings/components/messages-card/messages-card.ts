@@ -44,13 +44,13 @@ export class MessagesCard {
 
   clientError: string = ''; //client-side error
   serverError$: Observable<string | null>; //server-side error
-  //mozda samo jedna? za obe radnje
+
   messageToEdit: Message | null = null;
   messageToDelete: Message | null = null;
 
   constructor(private store: Store) {
     this.allMessages$ = this.store.select(selectAllMessages);
-    this.serverError$ = this.store.select(selectError); //prikazi je negde
+    this.serverError$ = this.store.select(selectError);
   }
 
   addNewMessage() {

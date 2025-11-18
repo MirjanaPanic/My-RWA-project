@@ -6,13 +6,11 @@ import { Public } from './decorators/public.decorator';
 import { AuthResponse } from './types/AuthResponse';
 import { UserDto } from './dtos/userdto';
 
-//RUTIRANJE I VALIDACIJA
 @Public() //javne rute, ne koristi jwt guard
 @Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  //zahtev na /auth/login
   @UseGuards(AuthGuard('local')) //prvo to,  req.user  ili  Unauthorized
   @Post('login')
   async login(@Request() req: RequestWithUser): Promise<AuthResponse> {

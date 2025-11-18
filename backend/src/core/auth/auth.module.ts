@@ -7,8 +7,6 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { UsersModule } from 'src/app/users/user.module';
 
-//secret :)
-
 @Module({
   imports: [
     UsersModule,

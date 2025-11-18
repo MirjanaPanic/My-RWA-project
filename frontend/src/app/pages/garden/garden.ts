@@ -40,22 +40,19 @@ export class Garden {
 
   constructor(private store: Store) {
     this.allFlower$ = this.store.select(selectAllFlowers);
-    //za enable/disable
+
     this.completedSession$ = this.store.select(selectCompletedSessions);
     this.numberOfFlower$ = this.store.select(selectFlowersLength);
 
     this.canPlant$ = combineLatest([this.numberOfFlower$, this.completedSession$]).pipe(
       map(([flowers, completed]) => {
-        if (flowers < completed) {
-          this.shouldShowButton = true;
-        } else {
-          this.shouldShowButton = false;
-        }
-
-        console.log(flowers, ' ', completed);
         return flowers < completed;
       })
     );
+
+    this.canPlant$.subscribe((c) => {
+      this.shouldShowButton = c;
+    });
   }
 
   enablePlanting(event: MouseEvent) {
@@ -64,8 +61,6 @@ export class Garden {
   }
 
   plantFlower(flowerCoords: FlowerCoordinates) {
-    if (!this.isPlantingMode) return;
-
     this.store.dispatch(newFlowerRequest({ flowerCoords: flowerCoords }));
 
     this.shouldShowButton = false;
@@ -80,7 +75,7 @@ export class Garden {
     );
 
     this.mouseMove$.subscribe((e) => {
-      console.log(e); //MouseCoordinates
+      console.log(e);
     });
 
     this.mouseClick$ = fromEvent<MouseEvent>(this.gardenElement.nativeElement, 'click').pipe(
@@ -88,7 +83,7 @@ export class Garden {
     );
 
     this.mouseClick$.subscribe((e) => {
-      console.log(e); //MouseCoordinates
+      console.log(e);
     });
 
     //NA svaki mouseClick se on kombinuje sa poslednjom vrednoscu iz MouseMove toka

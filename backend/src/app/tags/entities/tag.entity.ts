@@ -8,10 +8,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-//mapira se na tabelu u bazi
 @Entity('tags')
 export class Tag {
-  @PrimaryGeneratedColumn() //auto-increment
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'varchar', length: 30 })

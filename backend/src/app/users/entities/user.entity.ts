@@ -4,10 +4,9 @@ import { Session } from 'src/app/sessions/entities/session.entity';
 import { Tag } from 'src/app/tags/entities/tag.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
-//mapira se na tabelu u bazi
 @Entity('users')
 export class User {
-  @PrimaryGeneratedColumn() //auto-increment
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ type: 'varchar', length: 30, unique: true })
@@ -16,7 +15,6 @@ export class User {
   @Column({ type: 'varchar', length: 100 })
   password: string;
 
-  //lista poruka
   @OneToMany(() => Message, (message) => message.user)
   messages: Message[];
 

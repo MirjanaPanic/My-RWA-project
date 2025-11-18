@@ -16,7 +16,7 @@
   (messageToShow$ | async; as messageToShow) {
   <p>{{ messageToShow }}</p>
   } @else {
-  <p>You can do it</p>
+  <p>You started — the hardest part is done.</p>
   } } @if (status === SessionStatus.IN_PROGRESS || status === SessionStatus.BREAK) {
   <button matButton="elevated" class="action-button" (click)="pause()">PAUSE</button>
   } @if (status === SessionStatus.PAUSED_WORK || status === SessionStatus.PAUSED_BREAK) {

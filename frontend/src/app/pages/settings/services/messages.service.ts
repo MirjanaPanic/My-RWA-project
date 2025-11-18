@@ -7,7 +7,6 @@ import { environment } from '../../../../environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-//ili posebno za tag i messages service
 export class MessagesService {
   constructor(private http: HttpClient) {}
 

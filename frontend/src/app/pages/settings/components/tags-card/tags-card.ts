@@ -49,7 +49,7 @@ export class TagsCard {
 
   constructor(private store: Store) {
     this.allTag$ = this.store.select(selectAllTags);
-    this.serverError$ = this.store.select(selectError); //prikazi je negde
+    this.serverError$ = this.store.select(selectError);
   }
 
   addNewTag() {
@@ -64,7 +64,6 @@ export class TagsCard {
   }
 
   deleteTag(id: number) {
-    //promeni na true div da se prikaze
     this.store.dispatch(deleteTagRequest({ id }));
   }
 
@@ -76,7 +75,7 @@ export class TagsCard {
   }
 
   editRequest(tag: Tag) {
-    this.tagToEdit = { ...tag }; //nova referenca, nezavisna od niza tagova
+    this.tagToEdit = { ...tag };
   }
 
   editTag() {

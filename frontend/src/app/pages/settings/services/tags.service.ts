@@ -7,7 +7,7 @@ import { Tag } from '../models/tag.model';
 @Injectable({
   providedIn: 'root',
 })
-//ili posebno za tag i messages service
+
 export class TagsService {
   constructor(private http: HttpClient) {}
 

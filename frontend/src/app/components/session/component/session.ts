@@ -51,7 +51,6 @@ export class Session {
   displayTime: string = 'START';
   intervalId: number | null = null;
 
-  //on client side
   status: SessionStatus = SessionStatus.IN_PROGRESS;
   SessionStatus = SessionStatus; //mora biti svojstvo klase, da bi se videlo u sablon
 
@@ -59,6 +58,7 @@ export class Session {
   allMessages: Message[] = [];
   messageToShow$!: Observable<string>;
 
+  //Subject = Observable + Observer;
   secondsLeftSubject = new BehaviorSubject<number>(-1); //inicijalna vrednost
   secondsLeft$ = this.secondsLeftSubject.asObservable();
 
@@ -75,24 +75,18 @@ export class Session {
   }
 
   ngOnInit() {
-    //this.store.dispatch(setStatusInProgres());
     this.store.dispatch(getAllMessagesRequest());
-    //akcija da azuriram state na inprogress
-    // this.status = SessionStatus.IN_PROGRESS;
+
     this.timeLeft$.pipe(take(1)).subscribe((val) => {
       this.secondsLeft = val; //inicijalni config
-      console.log(this.secondsLeft);
-      //
     });
+
     this.allMessages$.subscribe((messages) => {
-      console.log(messages);
       if (messages.length > 0) {
-        console.log(messages);
         this.allMessages = messages;
-        console.log(this.allMessages);
         this.messageStreamInit();
-        this.sessionFlow();
       }
+      this.sessionFlow();
     });
   }
 
@@ -113,9 +107,9 @@ export class Session {
   }
 
   timeCounter() {
-    const current = this.secondsLeft - 1; // smanji sekunde
-    this.secondsLeft = current; // možeš i dalje držati lokalnu vrednost
-    this.secondsLeftSubject.next(current); // emituje novu vrednost kroz Observable
+    const current = this.secondsLeft - 1;
+    this.secondsLeft = current;
+    this.secondsLeftSubject.next(current);
     this.displayTime = this.formatTime(current);
   }
 
@@ -160,7 +154,7 @@ export class Session {
   }
 
   breakTime() {
-    this.stopTimer(); //nebitno??
+    this.stopTimer();
     this.status = SessionStatus.BREAK;
     this.store.dispatch(breakTimeRequest({ status: this.status }));
 
@@ -170,7 +164,6 @@ export class Session {
         if (this.secondsLeft > 0) {
           this.timeCounter();
         } else {
-          //this.stopTimer();
           this.nextRound();
         }
       }, 1000);
@@ -224,7 +217,6 @@ export class Session {
     if (this.status === SessionStatus.BREAK) {
       this.pauseBreak();
     }
-    //
   }
 
   continue() {

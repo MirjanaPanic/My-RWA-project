@@ -19,7 +19,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' }, //defaultno
     ],
   },
-  { path: 'focus', component: Focus, canActivate: [AuthGuard] }, //dodaj Guard-a :) //focus page
+  { path: 'focus', component: Focus, canActivate: [AuthGuard] },
   { path: 'settings', component: Settings, canActivate: [AuthGuard] },
   { path: 'statistics', component: Statistics, canActivate: [AuthGuard] },
   { path: 'garden', component: Garden, canActivate: [AuthGuard] },
